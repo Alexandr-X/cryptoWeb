@@ -1,0 +1,20 @@
+.imgCont {
+  width: 40px;
+  height: 40px;
+  border: 2px solid black;
+  transition: all 0.5s;
+}
+img {
+  width: 40px;
+  height: 40px;
+  transition: all 0.5s;
+}
+.imgCont:hover {
+  border: 2px solid #ff0000;
+  cursor: pointer;
+  border-radius: 20px 0 20px 0;
+  transform: rotate(370deg);
+}
+img:hover {
+  border-radius: 20px 0 20px 0;
+}

@@ -1,0 +1,9 @@
+.mainCont {
+  margin-top: 10px;
+  display: flex;
+  justify-content: space-between;
+  width: 1700px;
+}
+input {
+  width: 700px;
+}
