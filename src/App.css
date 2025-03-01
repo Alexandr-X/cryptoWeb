@@ -1,6 +1,12 @@
 body {
   display: flex;
   justify-content: space-around;
-  width: 100%;
+  width: 99%;
   height: 55rem;
+}
+#root {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  justify-content: center;
 }
