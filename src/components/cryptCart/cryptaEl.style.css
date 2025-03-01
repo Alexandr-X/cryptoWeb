@@ -1,0 +1,29 @@
+.cryptoCont {
+  border: 2px solid black;
+  height: 200px;
+  width: 200px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  align-items: center;
+  background-color: rgba(240, 240, 240, 0.439);
+  transition: all 0.5s;
+}
+
+.cryptoName {
+  font-family: "Courier New", Courier, monospace;
+}
+.supply {
+}
+.price {
+  padding-left: 40%;
+  font-weight: bolder;
+  font-size: 17px;
+}
+.cryptoCont:hover {
+  transform: scale(1.1);
+  background-color: rgba(148, 8, 235, 0.548);
+  color: white;
+  cursor: pointer;
+  border-radius: 15px;
+}
