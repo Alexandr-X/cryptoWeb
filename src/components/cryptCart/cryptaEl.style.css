@@ -1,7 +1,7 @@
 .cryptoCont {
   border: 2px solid black;
-  height: 200px;
-  width: 200px;
+  height: 250px;
+  width: 250px;
   display: flex;
   flex-direction: column;
   justify-content: space-evenly;
