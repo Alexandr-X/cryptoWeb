@@ -10,7 +10,9 @@ interface ISearchValue {
 }
 
 export const Main = ({ isSearch, searchText }: ISearchValue) => {
-  const { data: cryptoData, isError, isLoading } = crytoData();
+  const [start,setStartVal] = useState<number>(1);
+  const [limit,setlimitVal] = useState<number>(6)
+  const { data: cryptoData, isError, isLoading } = crytoData(start,limit);
   const [searchArr, setSearch] = useState();
 
   useEffect(() => {
