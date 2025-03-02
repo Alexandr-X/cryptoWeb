@@ -30,6 +30,7 @@ export const Main = ({ isSearch, searchText }: ISearchValue) => {
 
   const handleOnButtonClick = () => {
     console.log(123);
+    //const { data: cryptoData, isError, isLoading } = useCryptoData(1, 12);
   };
 
   if (isError) {
