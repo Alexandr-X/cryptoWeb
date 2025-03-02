@@ -10,17 +10,27 @@ interface ISearchValue {
 }
 
 export const Main = ({ isSearch, searchText }: ISearchValue) => {
-  const [start,setStartVal] = useState<number>(1);
-  const [limit,setlimitVal] = useState<number>(6);
-  const { data: cryptoData, isError, isLoading } = useCryptoData(start,limit);
+  const [start, setStartVal] = useState<number>(1);
+  const [limit, setlimitVal] = useState<number>(6);
+  const { data: cryptoData, isError, isLoading } = useCryptoData(start, limit);
 
-    console.log(cryptoData?.data.data, "data");
-    console.log("is - ", isSearch, " val - ", searchText);
+  console.log(cryptoData?.data.data, "data");
+  console.log("is - ", isSearch, " val - ", searchText);
 
-    const filteredCryptoData = useMemo(()=>isSearch? cryptoData?.data.data.filter(
-        (item: crptItm) =>
-          item.name.includes(searchText) || item.nameid.includes(searchText)
-      ):cryptoData?.data.data,[])
+  const filteredCryptoData = useMemo(
+    () =>
+      isSearch
+        ? cryptoData?.data.data.filter(
+            (item: crptItm) =>
+              item.name.includes(searchText) || item.nameid.includes(searchText)
+          )
+        : cryptoData?.data.data,
+    []
+  );
+
+  const handleOnButtonClick = () => {
+    console.log(123);
+  };
 
   if (isError) {
     return <h1>Error</h1>;
@@ -30,10 +40,10 @@ export const Main = ({ isSearch, searchText }: ISearchValue) => {
     return <h1>Загрузка...</h1>;
   }
 
-  
-    return (
+  return (
+    <div className="container">
       <div className="crptCont">
-        {filteredCryptoData.map((item: crptItm) => {
+        {filteredCryptoData?.map((item: crptItm) => {
           return (
             <CryptoCard
               id={item.id}
@@ -47,8 +57,10 @@ export const Main = ({ isSearch, searchText }: ISearchValue) => {
           );
         })}
       </div>
-    );
-  
-
-
+      <div className="add6words" onClick={handleOnButtonClick}>
+        {" "}
+        add six more words
+      </div>
+    </div>
+  );
 };
