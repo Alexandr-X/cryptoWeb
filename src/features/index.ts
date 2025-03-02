@@ -1,1 +1,1 @@
-export * from "./getCrypto";
+export * from "./useCryptoData";
