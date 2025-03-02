@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from "react";
-import { crytoData } from "../../features";
+import React, { useEffect, useMemo, useState } from "react";
+import { useCryptoData } from "../../features";
 import { crptItm } from "../../types";
 import { CryptoCard } from "../cryptCart/crypto-card.component";
 import "./main.style.css";
@@ -11,21 +11,16 @@ interface ISearchValue {
 
 export const Main = ({ isSearch, searchText }: ISearchValue) => {
   const [start,setStartVal] = useState<number>(1);
-  const [limit,setlimitVal] = useState<number>(6)
-  const { data: cryptoData, isError, isLoading } = crytoData(start,limit);
-  const [searchArr, setSearch] = useState();
+  const [limit,setlimitVal] = useState<number>(6);
+  const { data: cryptoData, isError, isLoading } = useCryptoData(start,limit);
 
-  useEffect(() => {
     console.log(cryptoData?.data.data, "data");
     console.log("is - ", isSearch, " val - ", searchText);
-    setSearch(
-      cryptoData?.data.data.filter(
+
+    const filteredCryptoData = useMemo(()=>isSearch? cryptoData?.data.data.filter(
         (item: crptItm) =>
           item.name.includes(searchText) || item.nameid.includes(searchText)
-      )
-    );
-    console.log(searchArr, "search el");
-  }, [searchText]);
+      ):cryptoData?.data.data,[])
 
   if (isError) {
     return <h1>Error</h1>;
@@ -34,10 +29,11 @@ export const Main = ({ isSearch, searchText }: ISearchValue) => {
   if (isLoading) {
     return <h1>Загрузка...</h1>;
   }
-  if (!isSearch) {
+
+  
     return (
       <div className="crptCont">
-        {cryptoData?.data.data.map((item: crptItm) => {
+        {filteredCryptoData.map((item: crptItm) => {
           return (
             <CryptoCard
               id={item.id}
@@ -52,23 +48,7 @@ export const Main = ({ isSearch, searchText }: ISearchValue) => {
         })}
       </div>
     );
-  }
+  
 
-  return (
-    <div className="crptCont">
-      {searchArr?.map((item: crptItm) => {
-        return (
-          <CryptoCard
-            id={item.id}
-            name={item.name}
-            tsupply={item.tsupply}
-            price_usd={item.price_usd}
-            nameid={item.nameid}
-            rank={item.rank}
-            percent_change_1h={item.percent_change_1h}
-          />
-        );
-      })}
-    </div>
-  );
+
 };
