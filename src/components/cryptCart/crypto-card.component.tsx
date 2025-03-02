@@ -11,7 +11,6 @@ export const CryptoCard: React.FC<crptItm> = ({
   rank,
   percent_change_1h,
 }) => {
-  console.log(price_usd, "price");
   return (
     <div key={id} className="cryptoCont">
       <h2 className="cryptoName">{name}</h2>
