@@ -10,18 +10,40 @@ interface ISearchValue {
 }
 
 export const Main = ({ isSearch, searchText }: ISearchValue) => {
-  const [start,setStartVal] = useState<number>(1);
-  const [limit,setlimitVal] = useState<number>(6);
-  const { data: cryptoData, isError, isLoading } = useCryptoData(start,limit);
+  const [start, setStartVal] = useState<number>(1);
+  const [limit, setlimitVal] = useState<number>(6);
+  const { data: cryptoData, isError, isLoading } = useCryptoData(start, limit);
+  const [height, setHeight] = useState(0);
 
-    console.log(cryptoData?.data.data, "data");
-    console.log("is - ", isSearch, " val - ", searchText);
+  //console.log(cryptoData?.data.data, "data");
+  //console.log("is - ", isSearch, " val - ", searchText);
 
-    const filteredCryptoData = useMemo(()=>isSearch? cryptoData?.data.data.filter(
-        (item: crptItm) =>
-          item.name.includes(searchText) || item.nameid.includes(searchText)
-      ):cryptoData?.data.data,[])
+  const filteredCryptoData = useMemo(() => {
+    console.log(cryptoData?.data.data);
+    return isSearch
+      ? cryptoData?.data.data.filter(
+          (item: crptItm) =>
+            item.name.includes(searchText) || item.nameid.includes(searchText)
+        )
+      : cryptoData?.data.data;
+  }, [cryptoData, limit, searchText]);
 
+  const handleOnButtonClick = () => {
+    setlimitVal(limit + 6);
+    setHeight(height + 80);
+    document.querySelector(".container");
+  };
+  useEffect(() => {
+    if (!filteredCryptoData) {
+      setHeight(0);
+    } else if (filteredCryptoData.length < 6) setHeight(80);
+    else {
+      console.log(height, "1asdasd");
+      setHeight((parseInt(filteredCryptoData.length) / 6) * 80);
+    }
+  }, [filteredCryptoData?.length]);
+
+  console.log(height);
   if (isError) {
     return <h1>Error</h1>;
   }
@@ -30,12 +52,18 @@ export const Main = ({ isSearch, searchText }: ISearchValue) => {
     return <h1>Загрузка...</h1>;
   }
 
-  
-    return (
+  return (
+    <div
+      className="container"
+      style={{
+        height: `${height}%`,
+      }}
+    >
       <div className="crptCont">
-        {filteredCryptoData.map((item: crptItm) => {
+        {filteredCryptoData?.map((item: crptItm) => {
           return (
             <CryptoCard
+              key={item.id}
               id={item.id}
               name={item.name}
               tsupply={item.tsupply}
@@ -47,8 +75,14 @@ export const Main = ({ isSearch, searchText }: ISearchValue) => {
           );
         })}
       </div>
-    );
-  
-
-
+      {!isSearch ? (
+        <div className="add6words" onClick={handleOnButtonClick}>
+          {" "}
+          add six more words
+        </div>
+      ) : (
+        <h2>This is what we find</h2>
+      )}
+    </div>
+  );
 };
