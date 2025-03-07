@@ -6,4 +6,5 @@ export interface crptItm {
   percent_change_1h: string;
   price_usd: string;
   rank: number;
+  setIsAddToCart: (value: boolean) => void;
 }
