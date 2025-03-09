@@ -7,9 +7,16 @@ import "./main.style.css";
 interface ISearchValue {
   isSearch: boolean;
   searchText: string;
+  isAddToCart: boolean;
+  setIsAddToCart: (value: boolean) => void;
 }
 
-export const Main = ({ isSearch, searchText }: ISearchValue) => {
+export const Main = ({
+  isSearch,
+  searchText,
+  isAddToCart,
+  setIsAddToCart,
+}: ISearchValue) => {
   const [start, setStartVal] = useState<number>(1);
   const [limit, setlimitVal] = useState<number>(6);
   const { data: cryptoData, isError, isLoading } = useCryptoData(start, limit);
@@ -31,7 +38,6 @@ export const Main = ({ isSearch, searchText }: ISearchValue) => {
   const handleOnButtonClick = () => {
     setlimitVal(limit + 6);
     setHeight(height + 80);
-    document.querySelector(".container");
   };
   useEffect(() => {
     if (!filteredCryptoData) {
@@ -71,6 +77,7 @@ export const Main = ({ isSearch, searchText }: ISearchValue) => {
               nameid={item.nameid}
               rank={item.rank}
               percent_change_1h={item.percent_change_1h}
+              setIsAddToCart={setIsAddToCart}
             />
           );
         })}
@@ -83,6 +90,7 @@ export const Main = ({ isSearch, searchText }: ISearchValue) => {
       ) : (
         <h2>This is what we find</h2>
       )}
+      {isAddToCart ? <div className="Notif">crpta was adding</div> : ""}
     </div>
   );
 };
