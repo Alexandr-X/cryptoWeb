@@ -38,7 +38,6 @@ export const Main = ({
   const handleOnButtonClick = () => {
     setlimitVal(limit + 6);
     setHeight(height + 80);
-    document.querySelector(".container");
   };
   useEffect(() => {
     if (!filteredCryptoData) {
