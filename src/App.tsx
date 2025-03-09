@@ -12,7 +12,7 @@ function App() {
   const [searchText, setText] = useState<string>("");
   const [isAddToCart, setIsAddToCart] = useState<boolean>(false);
   const [searchParams] = useSearchParams();
-  console.log(searchParams);
+  console.log(searchParams.get("name"));
 
   return (
     <>

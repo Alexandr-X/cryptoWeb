@@ -70,7 +70,7 @@ export const Main = ({
         filteredCryptoData={filteredCryptoData}
         setIsAddToCart={setIsAddToCart}
       />
-      {!isSearch ? (
+      {!isSearch ? ( //перенести это в криптолист!!!!
         <div className="add6words" onClick={handleOnButtonClick}>
           {" "}
           add six more words
