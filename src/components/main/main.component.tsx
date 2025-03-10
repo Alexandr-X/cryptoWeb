@@ -18,13 +18,11 @@ export const Main = ({
   isAddToCart,
   setIsAddToCart,
 }: ISearchValue) => {
-  const [start, setStartVal] = useState<number>(1);
+  const [start, setStartVal] = useState<number>(0);
   const [limit, setlimitVal] = useState<number>(6);
   const { data: cryptoData, isError, isLoading } = useCryptoData(start, limit);
-  const [height, setHeight] = useState(0);
-
-  //console.log(cryptoData?.data.data, "data");
-  //console.log("is - ", isSearch, " val - ", searchText);
+  const [height, setHeight] = useState<number>(0);
+  const [top, setTop] = useState<number>(0);
 
   const filteredCryptoData = useMemo(() => {
     console.log(cryptoData?.data.data);
@@ -43,10 +41,13 @@ export const Main = ({
   useEffect(() => {
     if (!filteredCryptoData) {
       setHeight(0);
-    } else if (filteredCryptoData.length < 6) setHeight(80);
-    else {
-      console.log(height, "1asdasd");
+    } else if (filteredCryptoData.length < 6) {
+      setHeight(80);
+    } else {
       setHeight((parseInt(filteredCryptoData.length) / 6) * 80);
+      if (parseInt(filteredCryptoData.length) % 6 !== 0) {
+        setHeight(height => height + 80);
+      }
     }
   }, [filteredCryptoData?.length]);
 
@@ -69,8 +70,9 @@ export const Main = ({
       <CryptoList
         filteredCryptoData={filteredCryptoData}
         setIsAddToCart={setIsAddToCart}
+        setTop={setTop}
       />
-      {!isSearch ? ( //перенести это в криптолист!!!!
+      {!isSearch ? (
         <div className="add6words" onClick={handleOnButtonClick}>
           {" "}
           add six more words
@@ -78,7 +80,14 @@ export const Main = ({
       ) : (
         <h2>This is what we find</h2>
       )}
-      {isAddToCart ? <div className="Notif">crpta was adding</div> : ""}
+
+      {isAddToCart ? (
+        <div style={{ top: `${top}px` }} className="Notif">
+          crpta was adding
+        </div>
+      ) : (
+        ""
+      )}
     </div>
   );
 };

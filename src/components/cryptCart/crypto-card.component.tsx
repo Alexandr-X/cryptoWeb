@@ -11,15 +11,21 @@ export const CryptoCard: React.FC<crptItm> = ({
   rank,
   percent_change_1h,
   setIsAddToCart,
+  setTop,
 }) => {
-  const handleOnCardClick = () => {
+  const handleOnCardClick = (event: React.MouseEvent) => {
     setIsAddToCart(true);
     setTimeout(() => {
       setIsAddToCart(false);
     }, 1500);
+    setTop(event.pageY);
   };
   return (
-    <div key={id} className="cryptoCont" onClick={handleOnCardClick}>
+    <div
+      key={id}
+      className="cryptoCont"
+      onClick={event => handleOnCardClick(event)}
+    >
       <h2 className="cryptoName">{name}</h2>
       <p className="supply">change per hour {percent_change_1h}%</p>
       <span className="price">
