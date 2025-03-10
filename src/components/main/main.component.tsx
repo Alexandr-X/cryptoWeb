@@ -3,6 +3,7 @@ import { useCryptoData } from "../../features";
 import { crptItm } from "../../types";
 import { CryptoCard } from "../cryptCart/crypto-card.component";
 import "./main.style.css";
+import { CryptoList } from "../cryptoList";
 
 interface ISearchValue {
   isSearch: boolean;
@@ -65,24 +66,11 @@ export const Main = ({
         height: `${height}%`,
       }}
     >
-      <div className="crptCont">
-        {filteredCryptoData?.map((item: crptItm) => {
-          return (
-            <CryptoCard
-              key={item.id}
-              id={item.id}
-              name={item.name}
-              tsupply={item.tsupply}
-              price_usd={item.price_usd}
-              nameid={item.nameid}
-              rank={item.rank}
-              percent_change_1h={item.percent_change_1h}
-              setIsAddToCart={setIsAddToCart}
-            />
-          );
-        })}
-      </div>
-      {!isSearch ? (
+      <CryptoList
+        filteredCryptoData={filteredCryptoData}
+        setIsAddToCart={setIsAddToCart}
+      />
+      {!isSearch ? ( //перенести это в криптолист!!!!
         <div className="add6words" onClick={handleOnButtonClick}>
           {" "}
           add six more words
