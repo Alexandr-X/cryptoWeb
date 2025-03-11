@@ -1,9 +1,11 @@
 import React, { useState } from "react";
-import { useNavigate } from "react-router";
+import { useLocation, useNavigate } from "react-router";
 
 export function SignInPages() {
   const [password, setPassword] = useState<string>("");
   const navigate = useNavigate();
+  const location = useLocation();
+  console.log(location);
 
   const handleOnSignInButtonClick = () => {
     navigate("/main");
@@ -15,7 +17,7 @@ export function SignInPages() {
         <input
           type="password"
           value={password}
-          onChange={(event) => {
+          onChange={event => {
             setPassword(event.target.value);
           }}
         />

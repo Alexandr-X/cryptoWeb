@@ -1,4 +1,4 @@
-import React from "react";
+import React, { JSX } from "react";
 import { crptItm } from "../../types";
 import { CryptoCard } from "../cryptCart/crypto-card.component";
 import { ICryptoList } from "../../types/cryptoList/ICryptoList.interface";
@@ -7,6 +7,7 @@ export const CryptoList = ({
   filteredCryptoData,
   setIsAddToCart,
   setTop,
+  setArrOfCartsCrypta,
 }: ICryptoList) => {
   return (
     <div className="crptCont">

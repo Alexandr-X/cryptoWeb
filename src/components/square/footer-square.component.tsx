@@ -1,19 +1,26 @@
 import React from "react";
-
 import "./square.style.css";
 import { NavLink } from "react-router";
+import { crptItm } from "../../types";
+
 type sqrType = {
   src: string;
   id: number;
+  arrOfCartsCrypta: crptItm[];
 };
 
-export const Square = ({ src, id }: sqrType) => {
+export const Square = ({ src, id, arrOfCartsCrypta }: sqrType) => {
   const onClickTest = (e: React.MouseEvent) => {
     console.log(e);
   };
   console.log("sqr");
   return id === 2 ? (
-    <NavLink onClick={e => onClickTest(e)} to={"/page2"} className="imgCont">
+    <NavLink
+      onClick={e => onClickTest(e)}
+      to={"/page2"}
+      className="imgCont"
+      state={{ data: arrOfCartsCrypta }}
+    >
       <img src={src} className="image" />
     </NavLink>
   ) : (

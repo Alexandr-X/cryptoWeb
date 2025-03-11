@@ -2,7 +2,7 @@ import React from "react";
 import { crptItm } from "../../types";
 import "./cryptaEl.style.css";
 
-export const CryptoCard: React.FC<crptItm> = ({
+export const CryptoCard = ({
   id,
   name,
   tsupply,
@@ -12,12 +12,13 @@ export const CryptoCard: React.FC<crptItm> = ({
   percent_change_1h,
   setIsAddToCart,
   setTop,
-}) => {
+}: crptItm) => {
   const handleOnCardClick = (event: React.MouseEvent) => {
     setIsAddToCart(true);
     setTimeout(() => {
       setIsAddToCart(false);
     }, 1500);
+
     setTop(event.pageY);
   };
   return (
