@@ -11,6 +11,7 @@ interface ISearchValue {
   isAddToCart: boolean;
   setIsAddToCart: (value: boolean) => void;
   setArrOfCartsCrypta: (arr: crptItm[]) => void;
+  arrOfCartsCrypta: crptItm[];
 }
 
 export const Main = ({
@@ -19,6 +20,7 @@ export const Main = ({
   isAddToCart,
   setIsAddToCart,
   setArrOfCartsCrypta,
+  arrOfCartsCrypta,
 }: ISearchValue) => {
   const [start, setStartVal] = useState<number>(0);
   const [limit, setlimitVal] = useState<number>(6);
@@ -74,6 +76,7 @@ export const Main = ({
         setIsAddToCart={setIsAddToCart}
         setTop={setTop}
         setArrOfCartsCrypta={setArrOfCartsCrypta}
+        arrOfCartsCrypta={arrOfCartsCrypta}
       />
       {!isSearch ? (
         <div className="add6words" onClick={handleOnButtonClick}>

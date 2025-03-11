@@ -1,28 +1,19 @@
 import React, { useState } from "react";
 import { useLocation, useNavigate } from "react-router";
+import { CryptoList } from "../../components";
+import { crptItm } from "../../types";
 
 export function SignInPages() {
   const [password, setPassword] = useState<string>("");
   const navigate = useNavigate();
   const location = useLocation();
-  console.log(location);
+  console.log(location.state);
 
-  const handleOnSignInButtonClick = () => {
-    navigate("/main");
-  };
   return (
     <div>
-      <div>
-        <input type="text" />
-        <input
-          type="password"
-          value={password}
-          onChange={event => {
-            setPassword(event.target.value);
-          }}
-        />
-      </div>
-      <button onClick={handleOnSignInButtonClick}>Sign In</button>
+      {location.state.data.map((item: crptItm) => {
+        return <h1>{item.name}</h1>;
+      })}
     </div>
   );
 }

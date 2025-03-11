@@ -1,6 +1,11 @@
-import React from "react";
+import React, { useState } from "react";
 import { crptItm } from "../../types";
 import "./cryptaEl.style.css";
+interface Ia extends crptItm {
+  item: crptItm;
+  setArrOfCartsCrypta: (val: crptItm[]) => void;
+  arrOfCartsCrypta: crptItm[];
+}
 
 export const CryptoCard = ({
   id,
@@ -12,7 +17,12 @@ export const CryptoCard = ({
   percent_change_1h,
   setIsAddToCart,
   setTop,
-}: crptItm) => {
+  item,
+  setArrOfCartsCrypta,
+  arrOfCartsCrypta,
+}: Ia) => {
+  const [arr, setArr] = useState<crptItm[]>(arrOfCartsCrypta);
+
   const handleOnCardClick = (event: React.MouseEvent) => {
     setIsAddToCart(true);
     setTimeout(() => {
@@ -20,7 +30,14 @@ export const CryptoCard = ({
     }, 1500);
 
     setTop(event.pageY);
+
+    setArr(x => {
+      const newArrOfClickedCard = [...x, item];
+      setArrOfCartsCrypta(newArrOfClickedCard);
+      return newArrOfClickedCard;
+    });
   };
+
   return (
     <div
       key={id}

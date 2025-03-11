@@ -1,4 +1,4 @@
-import React, { JSX } from "react";
+import React, { JSX, useEffect, useState } from "react";
 import { crptItm } from "../../types";
 import { CryptoCard } from "../cryptCart/crypto-card.component";
 import { ICryptoList } from "../../types/cryptoList/ICryptoList.interface";
@@ -8,6 +8,7 @@ export const CryptoList = ({
   setIsAddToCart,
   setTop,
   setArrOfCartsCrypta,
+  arrOfCartsCrypta,
 }: ICryptoList) => {
   return (
     <div className="crptCont">
@@ -24,6 +25,9 @@ export const CryptoList = ({
             percent_change_1h={item.percent_change_1h}
             setIsAddToCart={setIsAddToCart}
             setTop={setTop}
+            item={item}
+            setArrOfCartsCrypta={setArrOfCartsCrypta}
+            arrOfCartsCrypta={arrOfCartsCrypta}
           />
         );
       })}

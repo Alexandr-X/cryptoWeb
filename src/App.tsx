@@ -27,6 +27,7 @@ function App() {
           isAddToCart={isAddToCart}
           setIsAddToCart={setIsAddToCart}
           setArrOfCartsCrypta={setArrOfCartsCrypta}
+          arrOfCartsCrypta={arrOfCartsCrypta}
         />
       </QueryClientProvider>
     </>

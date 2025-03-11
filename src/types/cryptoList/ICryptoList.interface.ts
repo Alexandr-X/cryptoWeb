@@ -5,4 +5,5 @@ export interface ICryptoList {
   setIsAddToCart: (value: boolean) => void;
   setTop: (value: number) => void;
   setArrOfCartsCrypta: (arr: crptItm[]) => void;
+  arrOfCartsCrypta: crptItm[];
 }
