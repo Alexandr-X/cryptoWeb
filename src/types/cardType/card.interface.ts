@@ -1,3 +1,5 @@
+import { JSX } from "react/jsx-runtime";
+
 export interface crptItm {
   id: string;
   tsupply: string;
@@ -7,4 +9,5 @@ export interface crptItm {
   price_usd: string;
   rank: number;
   setIsAddToCart: (value: boolean) => void;
+  setTop: (value: number) => void;
 }
