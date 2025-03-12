@@ -29,7 +29,6 @@ export const Main = ({
   const [top, setTop] = useState<number>(0);
 
   const filteredCryptoData = useMemo(() => {
-    console.log(cryptoData?.data.data);
     return isSearch
       ? cryptoData?.data.data.filter(
           (item: crptItm) =>
@@ -55,7 +54,6 @@ export const Main = ({
     }
   }, [filteredCryptoData?.length]);
 
-  console.log(height);
   if (isError) {
     return <h1>Error</h1>;
   }
