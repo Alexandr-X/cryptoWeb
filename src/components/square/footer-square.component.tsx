@@ -13,7 +13,6 @@ export const Square = ({ src, id, arrOfCartsCrypta }: sqrType) => {
   const onClickTest = (e: React.MouseEvent) => {
     console.log(e);
   };
-  console.log("sqr");
   return id === 2 ? (
     <NavLink
       onClick={e => onClickTest(e)}
