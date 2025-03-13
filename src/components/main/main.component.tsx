@@ -10,6 +10,8 @@ interface ISearchValue {
   searchText: string;
   isAddToCart: boolean;
   setIsAddToCart: (value: boolean) => void;
+  setArrOfCartsCrypta: (arr: crptItm[]) => void;
+  arrOfCartsCrypta: crptItm[];
 }
 
 export const Main = ({
@@ -17,6 +19,8 @@ export const Main = ({
   searchText,
   isAddToCart,
   setIsAddToCart,
+  setArrOfCartsCrypta,
+  arrOfCartsCrypta,
 }: ISearchValue) => {
   const [start, setStartVal] = useState<number>(0);
   const [limit, setlimitVal] = useState<number>(6);
@@ -25,7 +29,6 @@ export const Main = ({
   const [top, setTop] = useState<number>(0);
 
   const filteredCryptoData = useMemo(() => {
-    console.log(cryptoData?.data.data);
     return isSearch
       ? cryptoData?.data.data.filter(
           (item: crptItm) =>
@@ -51,7 +54,6 @@ export const Main = ({
     }
   }, [filteredCryptoData?.length]);
 
-  console.log(height);
   if (isError) {
     return <h1>Error</h1>;
   }
@@ -71,6 +73,8 @@ export const Main = ({
         filteredCryptoData={filteredCryptoData}
         setIsAddToCart={setIsAddToCart}
         setTop={setTop}
+        setArrOfCartsCrypta={setArrOfCartsCrypta}
+        arrOfCartsCrypta={arrOfCartsCrypta}
       />
       {!isSearch ? (
         <div className="add6words" onClick={handleOnButtonClick}>
