@@ -1,0 +1,17 @@
+.exit {
+  width: 20px;
+  height: 20px;
+  position: absolute;
+  border: 2px solid black;
+  text-align: center;
+  left: 2rem;
+  top: 2rem;
+  color: red;
+  transition: all 0.5s;
+}
+.exit:hover {
+  cursor: pointer;
+  border: 2px solid transparent;
+  background-color: black;
+  color: white;
+}
