@@ -2,6 +2,7 @@ import React, { useEffect, useRef, useState } from "react";
 import { useLocation, useNavigate } from "react-router";
 import { crptItm } from "../../types";
 import { CartsCryptoCard } from "../../components";
+import { ExitToMainMenu } from "../../components";
 
 export function ProfilePage() {
   const location = useLocation();
@@ -17,7 +18,7 @@ export function ProfilePage() {
       let temp = JSON.parse(localStorage.getItem("arrOfData") || "[]");
 
       // if (!Array.isArray(temp)) {
-      //   temp = []; // Если нет, инициализируем его как пустой массив
+      //   temp = [];
       // }
 
       temp.push(...location.state.data);
@@ -35,6 +36,7 @@ export function ProfilePage() {
 
   return (
     <div>
+      <ExitToMainMenu />
       {arrOfClickedElem.map((item: crptItm) => {
         return (
           <CartsCryptoCard
