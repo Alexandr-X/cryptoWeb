@@ -5,6 +5,9 @@ import { CartsCryptoCard } from "../../components";
 
 export function ProfilePage() {
   const location = useLocation();
+  const [arrOfClickedElem, setArrOfClickedElem] = useState<crptItm[]>(
+    location.state.data
+  );
 
   useEffect(() => {
     if (!localStorage.getItem("arrOfData")) {
@@ -12,25 +15,27 @@ export function ProfilePage() {
       localStorage.setItem("arrOfData", JSON.stringify(location.state.data));
     } else {
       let temp = JSON.parse(localStorage.getItem("arrOfData") || "[]");
+
+      // if (!Array.isArray(temp)) {
+      //   temp = []; // Если нет, инициализируем его как пустой массив
+      // }
+
       temp.push(...location.state.data);
+
+      temp = Array.from(
+        new Set(temp.map((item: crptItm) => JSON.stringify(item)))
+      ).map(item => JSON.parse(item));
+
+      setArrOfClickedElem(temp);
+
       console.log(temp, "temp");
       localStorage.setItem("arrOfData", JSON.stringify(temp));
-
-      // for (let i = 0; i < temp.length; i++) {
-      //   let arr = [];
-      //   for (let j = 0; j < temp.length; j++) {
-      //     if (temp[i] === temp[j]) {
-      //       arr.push(j);
-      //     }
-      //   }
-
-      // }
     }
   }, [location.state.data]);
 
   return (
     <div>
-      {location.state.data.map((item: crptItm) => {
+      {arrOfClickedElem.map((item: crptItm) => {
         return (
           <CartsCryptoCard
             key={item.id}
