@@ -1,12 +1,12 @@
 .exit {
   width: 20px;
   height: 20px;
-  position: relative;
+  position: absolute;
   border: 2px solid black;
-  top: -3rem;
   text-align: center;
+  left: 2rem;
+  top: 2rem;
   color: red;
-  right: 25rem;
   transition: all 0.5s;
 }
 .exit:hover {

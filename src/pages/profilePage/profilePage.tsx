@@ -3,6 +3,7 @@ import { useLocation, useNavigate } from "react-router";
 import { crptItm } from "../../types";
 import { CartsCryptoCard } from "../../components";
 import { ExitToMainMenu } from "../../components";
+import "./profilePage.style.css";
 
 export function ProfilePage() {
   const location = useLocation();
@@ -35,22 +36,24 @@ export function ProfilePage() {
   }, [location.state.data]);
 
   return (
-    <div>
+    <div className="mainContOfPage2">
       <ExitToMainMenu />
-      {arrOfClickedElem.map((item: crptItm) => {
-        return (
-          <CartsCryptoCard
-            key={item.id}
-            id={item.id}
-            name={item.name}
-            tsupply={item.tsupply}
-            price_usd={item.price_usd}
-            nameid={item.nameid}
-            rank={item.rank}
-            percent_change_1h={item.percent_change_1h}
-          />
-        );
-      })}
+      <div className="cardContInCart">
+        {arrOfClickedElem.map((item: crptItm) => {
+          return (
+            <CartsCryptoCard
+              key={item.id}
+              id={item.id}
+              name={item.name}
+              tsupply={item.tsupply}
+              price_usd={item.price_usd}
+              nameid={item.nameid}
+              rank={item.rank}
+              percent_change_1h={item.percent_change_1h}
+            />
+          );
+        })}
+      </div>
     </div>
   );
 }
