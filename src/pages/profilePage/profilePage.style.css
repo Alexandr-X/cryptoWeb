@@ -1,0 +1,10 @@
+.cardContInCart {
+  width: 50%;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-evenly;
+}
+.mainContOfPage2 {
+  display: flex;
+  justify-content: space-evenly;
+}

@@ -1,0 +1,44 @@
+.cartCardCont {
+  border: 3px solid rgb(120, 120, 120);
+  height: 250px;
+  width: 250px;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  transition: all 0.6s;
+}
+.cartCardCont h2,
+.cartCardCont p {
+  width: 100%;
+  text-align: center;
+}
+
+.costCont {
+  width: 200px;
+  display: flex;
+  justify-content: space-evenly;
+}
+.costCont input {
+  width: 25px;
+}
+.buyBtn {
+  width: 30px;
+  color: black;
+  transition: all 0.5s;
+  text-align: center;
+  border: 1px solid black;
+}
+.cartCardCont:hover {
+  border-radius: 10px;
+  cursor: pointer;
+  border: 3px solid red;
+  color: purple;
+  transform: rotate(5deg);
+}
+.buyBtn:hover {
+  cursor: pointer;
+  border-radius: 10px;
+  color: white;
+  background-color: rgba(255, 6, 238, 0.615);
+  transform: translate(0px, 30%);
+}
