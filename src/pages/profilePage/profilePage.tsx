@@ -50,6 +50,9 @@ export function ProfilePage() {
               nameid={item.nameid}
               rank={item.rank}
               percent_change_1h={item.percent_change_1h}
+              item={item}
+              setArrOfClickedElem={setArrOfClickedElem}
+              arrOfClickedElem={arrOfClickedElem}
             />
           );
         })}
