@@ -1,6 +1,12 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { crptItm } from "../../types";
 import "./cartCrtptCard.style.css";
+
+interface ICartsCryptoCard extends crptItm {
+  item: crptItm;
+  setArrOfClickedElem: (val: crptItm[]) => void;
+  arrOfClickedElem: crptItm[];
+}
 
 export const CartsCryptoCard = ({
   id,
@@ -10,9 +16,37 @@ export const CartsCryptoCard = ({
   nameid,
   rank,
   percent_change_1h,
-}: crptItm) => {
+  item,
+  setArrOfClickedElem,
+  arrOfClickedElem,
+}: ICartsCryptoCard) => {
+  const [isClicked, setIsClicked] = useState<boolean>(false);
+
+  useEffect(() => {
+    if (isClicked) {
+      const newArr = arrOfClickedElem
+        .map(item => JSON.stringify(item))
+        .filter(value => {
+          return value != JSON.stringify(item);
+        })
+        .map(item => JSON.parse(item));
+
+      setArrOfClickedElem(newArr);
+
+      localStorage.removeItem("arrOfData");
+      console.log(newArr, "new");
+      localStorage.setItem("arrOfData", JSON.stringify(newArr)),
+        setIsClicked(false);
+    }
+  }, [isClicked]);
+  const handleOnDeleteClick = () => {
+    setIsClicked(true);
+  };
   return (
     <div className="cartCardCont">
+      <div onClick={handleOnDeleteClick} className="deleteCardBtn">
+        X
+      </div>
       <h2>{name}</h2>
       <p>change per hour {percent_change_1h}%</p>
       <span className="price">
