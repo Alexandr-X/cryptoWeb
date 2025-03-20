@@ -18,22 +18,18 @@ export function ProfilePage() {
     } else {
       let temp = JSON.parse(localStorage.getItem("arrOfData") || "[]");
 
-      // if (!Array.isArray(temp)) {
-      //   temp = [];
-      // }
-
       temp.push(...location.state.data);
 
       temp = Array.from(
         new Set(temp.map((item: crptItm) => JSON.stringify(item)))
-      ).map(item => JSON.parse(item));
+      ).map((item) => JSON.parse(item));
 
       setArrOfClickedElem(temp);
 
       console.log(temp, "temp");
       localStorage.setItem("arrOfData", JSON.stringify(temp));
     }
-  }, [location.state.data]);
+  }, [location.state.data, arrOfClickedElem]);
 
   return (
     <div className="mainContOfPage2">
