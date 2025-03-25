@@ -6,6 +6,8 @@ interface ICartsCryptoCard extends crptItm {
   item: crptItm;
   setArrOfClickedElem: (val: crptItm[]) => void;
   arrOfClickedElem: crptItm[];
+  wallet: number;
+  setWallet: (val: number) => void;
 }
 
 export const CartsCryptoCard = ({
@@ -19,8 +21,11 @@ export const CartsCryptoCard = ({
   item,
   setArrOfClickedElem,
   arrOfClickedElem,
+  wallet,
+  setWallet,
 }: ICartsCryptoCard) => {
   const [isClicked, setIsClicked] = useState<boolean>(false);
+  const [cost, setCost] = useState<string>("");
 
   useEffect(() => {
     if (isClicked) {
@@ -42,8 +47,22 @@ export const CartsCryptoCard = ({
   const handleOnDeleteClick = () => {
     setIsClicked(true);
   };
+
+  const handleOnInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setCost(e.target.value);
+  };
+
+  const handleOnBuyBtnClick = (e: React.ChangeEvent) => {
+    const workingElem = arrOfClickedElem.filter(
+      (item: crptItm) => item.id == e.target.parentElement?.parentElement?.id
+    );
+    if (Number(workingElem[0].price_usd) * parseFloat(cost) <= wallet) {
+      setWallet(wallet - Number(workingElem[0].price_usd) * parseFloat(cost));
+    }
+  };
+
   return (
-    <div className="cartCardCont">
+    <div className="cartCardCont" id={id}>
       <div onClick={handleOnDeleteClick} className="deleteCardBtn">
         X
       </div>
@@ -53,7 +72,15 @@ export const CartsCryptoCard = ({
         price - {`${parseFloat(price_usd).toFixed(2)}`}$
       </span>
       <div className="costCont">
-        <div className="buyBtn">buy</div> <input placeholder="0" />
+        <div className="buyBtn" onClick={handleOnBuyBtnClick}>
+          buy
+        </div>
+        <input
+          value={cost}
+          placeholder="0"
+          onChange={handleOnInputChange}
+          type="number"
+        />
         pieces
       </div>
     </div>

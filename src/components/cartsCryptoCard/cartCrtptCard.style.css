@@ -22,6 +22,16 @@
 }
 .costCont input {
   width: 25px;
+  outline: none;
+  border: none;
+  border-bottom: 2px solid rgba(206, 206, 206, 0.717);
+}
+.costCont input:focus {
+  border-bottom: 2px solid black;
+}
+.costCont input::-webkit-outer-spin-button,
+.costCont input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
 }
 .buyBtn {
   width: 30px;
@@ -31,11 +41,10 @@
   border: 1px solid black;
 }
 .cartCardCont:hover {
-  border-radius: 10px;
+  border-radius: 22px;
   cursor: pointer;
   border: 3px solid red;
   color: purple;
-  transform: rotate(5deg);
 }
 .buyBtn:hover {
   cursor: pointer;
