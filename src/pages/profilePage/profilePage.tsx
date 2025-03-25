@@ -4,13 +4,18 @@ import { crptItm } from "../../types";
 import { CartsCryptoCard } from "../../components";
 import { ExitToMainMenu } from "../../components";
 import "./profilePage.style.css";
+import { NavLink } from "react-router";
 
 export function ProfilePage() {
   const location = useLocation();
   const [arrOfClickedElem, setArrOfClickedElem] = useState<crptItm[]>(
     location.state.data
   );
-  const [wallet, setWallet] = useState<number>(100);
+  const [wallet, setWallet] = useState<number>(
+    parseFloat(localStorage.getItem("wallet") || "0")
+  );
+
+  const handleOnTopUpClick = () => {};
 
   useEffect(() => {
     if (!localStorage.getItem("arrOfData")) {
@@ -66,7 +71,11 @@ export function ProfilePage() {
         />
         <h1>Alexandr</h1>
         <span>wallet - {wallet}$</span>
-        <div className="balance">top up</div>
+        <NavLink to={"/topUpPage"} className="toPWrap">
+          <div className="balance" onClick={handleOnTopUpClick}>
+            top up
+          </div>
+        </NavLink>
       </div>
     </div>
   );

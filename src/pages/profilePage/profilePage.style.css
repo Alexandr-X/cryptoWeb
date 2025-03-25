@@ -39,3 +39,8 @@
   color: white;
   border-radius: 10px;
 }
+a {
+  color: black;
+  border: none;
+  text-decoration: none;
+}

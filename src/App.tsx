@@ -12,6 +12,9 @@ function App() {
   const [searchText, setText] = useState<string>("");
   const [isAddToCart, setIsAddToCart] = useState<boolean>(false);
   const [arrOfCartsCrypta, setArrOfCartsCrypta] = useState<crptItm[]>([]);
+  if (!localStorage.getItem("wallet")) {
+    localStorage.setItem("wallet", "100");
+  }
 
   return (
     <>
