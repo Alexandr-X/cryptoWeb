@@ -4,7 +4,7 @@
   border: 2px solid black;
   transition: all 0.5s;
 }
-img {
+.image {
   width: 35px;
   height: 35px;
   transition: all 0.5s;
@@ -15,6 +15,6 @@ img {
   border-radius: 20px 0 20px 0;
   transform: rotate(370deg);
 }
-img:hover {
+.image:hover {
   border-radius: 20px 0 20px 0;
 }
