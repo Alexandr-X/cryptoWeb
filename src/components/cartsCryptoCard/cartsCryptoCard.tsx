@@ -52,13 +52,28 @@ export const CartsCryptoCard = ({
     setCost(e.target.value);
   };
 
-  const handleOnBuyBtnClick = (e: React.ChangeEvent) => {
+  const handleOnBuyBtnClick = (e: React.MouseEvent<HTMLElement>) => {
     const workingElem = arrOfClickedElem.filter(
       (item: crptItm) => item.id == e.target.parentElement?.parentElement?.id
     );
     if (Number(workingElem[0].price_usd) * parseFloat(cost) <= wallet) {
-      setWallet(wallet - Number(workingElem[0].price_usd) * parseFloat(cost));
-    }
+      localStorage.setItem(
+        "wallet",
+        `${(
+          wallet -
+          Number(workingElem[0].price_usd) * parseFloat(cost)
+        ).toFixed(3)}`
+      );
+      setWallet(
+        Number(
+          (
+            wallet -
+            Number(workingElem[0].price_usd) * parseFloat(cost)
+          ).toFixed(3)
+        )
+      );
+    } else if (cost != "")
+      alert("you have no many:( pls top up your card or choose less crypto.");
   };
 
   return (
