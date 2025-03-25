@@ -66,6 +66,7 @@ export function ProfilePage() {
         />
         <h1>Alexandr</h1>
         <span>wallet - {wallet}$</span>
+        <div className="balance">top up</div>
       </div>
     </div>
   );

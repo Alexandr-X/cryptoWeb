@@ -53,11 +53,16 @@ export const CartsCryptoCard = ({
   };
 
   const handleOnBuyBtnClick = (e: React.ChangeEvent) => {
-    console.log(e.target.parentElement?.parentElement);
+    const workingElem = arrOfClickedElem.filter(
+      (item: crptItm) => item.id == e.target.parentElement?.parentElement?.id
+    );
+    if (Number(workingElem[0].price_usd) * parseFloat(cost) <= wallet) {
+      setWallet(wallet - Number(workingElem[0].price_usd) * parseFloat(cost));
+    }
   };
 
   return (
-    <div className="cartCardCont">
+    <div className="cartCardCont" id={id}>
       <div onClick={handleOnDeleteClick} className="deleteCardBtn">
         X
       </div>

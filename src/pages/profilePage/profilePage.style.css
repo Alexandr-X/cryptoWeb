@@ -26,3 +26,16 @@
   width: 7rem;
   height: 7rem;
 }
+.balance {
+  font-weight: bolder;
+  width: 60px;
+  height: 25px;
+  text-align: center;
+  transition: all 0.5s;
+}
+.balance:hover {
+  cursor: pointer;
+  background-color: black;
+  color: white;
+  border-radius: 10px;
+}
