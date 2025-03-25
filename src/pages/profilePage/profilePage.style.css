@@ -1,10 +1,28 @@
 .cardContInCart {
-  width: 70%;
+  width: 60%;
   display: flex;
   flex-wrap: wrap;
   justify-content: space-evenly;
+  margin-right: 30%;
 }
 .mainContOfPage2 {
   display: flex;
   justify-content: space-evenly;
+  height: 98%;
+}
+.profInfo {
+  position: absolute;
+  border-bottom: 2px solid black;
+  width: 350px;
+  height: 200px;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1.5rem;
+  right: 3rem;
+}
+.profInfo img {
+  width: 7rem;
+  height: 7rem;
 }
