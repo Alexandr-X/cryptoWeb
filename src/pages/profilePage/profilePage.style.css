@@ -22,7 +22,7 @@
   padding: 1.5rem;
   right: 3rem;
 }
-.profInfo img {
+.picture {
   width: 7rem;
   height: 7rem;
 }
@@ -43,4 +43,8 @@ a {
   color: black;
   border: none;
   text-decoration: none;
+}
+.purch {
+  height: 50px;
+  width: 70px;
 }
