@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { crptItm } from "../../types";
 import "./cartCrtptCard.style.css";
+import { IBoughtArr } from "../../pages";
 
 interface ICartsCryptoCard extends crptItm {
   item: crptItm;
@@ -8,6 +9,7 @@ interface ICartsCryptoCard extends crptItm {
   arrOfClickedElem: crptItm[];
   wallet: number;
   setWallet: (val: number) => void;
+  setArrOfBoughtEl: (val: IBoughtArr[]) => void;
 }
 
 export const CartsCryptoCard = ({
@@ -22,19 +24,15 @@ export const CartsCryptoCard = ({
   setArrOfClickedElem,
   arrOfClickedElem,
   wallet,
+  setArrOfBoughtEl,
   setWallet,
 }: ICartsCryptoCard) => {
   const [isClicked, setIsClicked] = useState<boolean>(false);
-  const [cost, setCost] = useState<string>("");
+  const [quantity, setQuantity] = useState<string>("");
 
   useEffect(() => {
     if (isClicked) {
-      const newArr = arrOfClickedElem
-        .map(item => JSON.stringify(item))
-        .filter(value => {
-          return value != JSON.stringify(item);
-        })
-        .map(item => JSON.parse(item));
+      const newArr = arrOfClickedElem.filter(elem => elem.id !== item.id);
 
       setArrOfClickedElem(newArr);
 
@@ -49,30 +47,32 @@ export const CartsCryptoCard = ({
   };
 
   const handleOnInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setCost(e.target.value);
+    setQuantity(e.target.value);
   };
 
   const handleOnBuyBtnClick = (e: React.MouseEvent<HTMLElement>) => {
     const workingElem = arrOfClickedElem.filter(
       (item: crptItm) => item.id == e.target.parentElement?.parentElement?.id
     );
-    if (Number(workingElem[0].price_usd) * parseFloat(cost) <= wallet) {
+    if (Number(workingElem[0].price_usd) * parseFloat(quantity) <= wallet) {
       localStorage.setItem(
         "wallet",
         `${(
           wallet -
-          Number(workingElem[0].price_usd) * parseFloat(cost)
+          Number(workingElem[0].price_usd) * parseFloat(quantity)
         ).toFixed(3)}`
       );
+      setArrOfBoughtEl(prev => [...prev, [...workingElem, quantity]]);
+
       setWallet(
         Number(
           (
             wallet -
-            Number(workingElem[0].price_usd) * parseFloat(cost)
+            Number(workingElem[0].price_usd) * parseFloat(quantity)
           ).toFixed(3)
         )
       );
-    } else if (cost != "")
+    } else if (quantity != "")
       alert("you have no many:( pls top up your card or choose less crypto.");
   };
 
@@ -91,7 +91,7 @@ export const CartsCryptoCard = ({
           buy
         </div>
         <input
-          value={cost}
+          value={quantity}
           placeholder="0"
           onChange={handleOnInputChange}
           type="number"
