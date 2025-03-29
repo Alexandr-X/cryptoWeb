@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import "./topUpPage.style.css";
 import { ExitToMainMenu } from "../../components";
+import { NavLink } from "react-router";
 
 export const TopUpPage = () => {
   const [money, setMoney] = useState<string>("");
@@ -62,10 +63,18 @@ export const TopUpPage = () => {
               onChange={handleOnMoneyChange}
             />
           </div>
-
-          <div className="payBtn" onClick={handleOnConfirmBtnclick}>
-            Confirm Payment
-          </div>
+          <NavLink
+            className="linkBtn"
+            to={"/page2"}
+            state={{
+              data: JSON.parse(localStorage.getItem("arrOfData") || "[]"),
+            }}
+          >
+            {" "}
+            <div className="payBtn" onClick={handleOnConfirmBtnclick}>
+              Confirm Payment
+            </div>
+          </NavLink>
         </form>
       </div>
     </>

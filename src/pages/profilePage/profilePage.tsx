@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useMemo, useRef, useState } from "react";
 import { useLocation, useNavigate } from "react-router";
 import { crptItm } from "../../types";
 import { CartsCryptoCard } from "../../components";
@@ -11,10 +11,6 @@ export interface IBoughtObj {
   arr: crptItm;
   quantity: number;
 }
-export interface IBoughtArr {
-  [index: number]: crptItm & string;
-  elem: IBoughtObj[];
-}
 
 export function ProfilePage() {
   const location = useLocation();
@@ -22,8 +18,10 @@ export function ProfilePage() {
   const [arrOfClickedElem, setArrOfClickedElem] = useState<crptItm[]>(
     location.state.data
   );
-  const [newBoughtsArr, setNewBoughtsArr] = useState<IBoughtArr[]>([]);
-  const [arrOfBoughtelem, setArrOfBoughtEl] = useState<IBoughtArr[]>([]);
+  const [heightOfMCont2, setHeigh] = useState<number>(98);
+  const [arrOfBoughtEl, setArrOfBoughtEl] = useState<IBoughtObj[]>(
+    JSON.parse(localStorage.getItem("boughts") || "[]")
+  );
 
   const [wallet, setWallet] = useState<number>(
     parseFloat(localStorage.getItem("wallet") || "0")
@@ -34,6 +32,26 @@ export function ProfilePage() {
     else if (!isPurchase) setIsPurchase(true);
   };
 
+  useEffect(() => {
+    let arrT = arrOfBoughtEl;
+    console.log("boght", arrOfBoughtEl);
+
+    arrT.map((item: IBoughtObj) => {
+      let ind = Number(
+        arrT.findIndex((elem: IBoughtObj) => elem.arr.id === item.arr.id)
+      );
+      for (let j = 0; j < arrT.length; j++) {
+        if (item.arr.id === arrT[j].arr.id && j !== ind) {
+          item.quantity += arrT[j].quantity;
+          console.log(item.quantity, "qua");
+          arrT = arrT.slice(0, j).concat(arrT.slice(j + 1));
+          setArrOfBoughtEl(arrT);
+          localStorage.setItem("boughts", JSON.stringify(arrT));
+        }
+      }
+      return item;
+    });
+  }, [wallet]);
   useEffect(() => {
     if (!localStorage.getItem("arrOfData")) {
       localStorage.setItem("arrOfData", JSON.stringify(location.state.data));
@@ -52,30 +70,32 @@ export function ProfilePage() {
     }
   }, [location.state.data]);
 
-  useEffect(() => {
-    const newArrOfBoughtElem = arrOfBoughtelem.reduce((acc, arr) => {
-      if (!acc.length) acc.push(arr);
-      else {
-        const isSame = acc.filter(
-          (item: IBoughtArr) => item[0].id === arr[0].id
-        );
+  useMemo(() => {
+    if (JSON.parse(localStorage.getItem("arrOfData") || "[]").length <= 9) {
+      setHeigh(98);
+    } else {
+      let temp = Math.floor(
+        JSON.parse(localStorage.getItem("arrOfData") || "[]").length / 9
+      );
 
-        if (!isSame.length) {
-          acc.push(arr);
-        } else {
-          //  const index = acc.findIndex(isSame);
-          console.log(index, "ind");
-        }
+      if (
+        JSON.parse(localStorage.getItem("arrOfData") || "[]").length % 9 !=
+        0
+      ) {
+        temp++;
       }
-      setNewBoughtsArr(acc);
-      console.log("acc", acc);
 
-      return acc;
-    }, []);
-  }, [wallet]);
+      setHeigh(58 * temp);
+    }
+  }, [JSON.parse(localStorage.getItem("arrOfData") || "[]").length]);
 
   return (
-    <div className="mainContOfPage2">
+    <div
+      className="mainContOfPage2"
+      style={{
+        height: `${heightOfMCont2}%`,
+      }}
+    >
       <ExitToMainMenu />
       {!isPurchase ? (
         <div className="cardContInCart">
@@ -96,20 +116,28 @@ export function ProfilePage() {
                 wallet={wallet}
                 setWallet={setWallet}
                 setArrOfBoughtEl={setArrOfBoughtEl}
+                arrOfBoughtEl={arrOfBoughtEl}
               />
             );
           })}
         </div>
       ) : (
-        <div>
-          {newBoughtsArr.map((item: IBoughtArr) => {
-            return (
-              <div>
-                <p>{item[0].name}</p>
-                <p>{item[1]}</p>
-              </div>
-            );
-          })}
+        <div className="bugthsCont">
+          {arrOfBoughtEl.length !== 0 ? (
+            arrOfBoughtEl.map((item: IBoughtObj) => {
+              return (
+                <div className="boughtsElem">
+                  <h2>{item.arr.name}</h2>
+                  <h3 className="quntCont">
+                    quantity that you bought -{" "}
+                    <p className="qunt">{item.quantity}</p>
+                  </h3>
+                </div>
+              );
+            })
+          ) : (
+            <h1>You bought nothing yet</h1>
+          )}
         </div>
       )}
 

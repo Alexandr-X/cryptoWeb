@@ -15,6 +15,9 @@ function App() {
   if (!localStorage.getItem("wallet")) {
     localStorage.setItem("wallet", "100");
   }
+  if (!localStorage.getItem("boughts")) {
+    localStorage.setItem("boughts", "[]");
+  }
 
   return (
     <>
