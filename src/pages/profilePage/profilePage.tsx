@@ -11,10 +11,6 @@ export interface IBoughtObj {
   arr: crptItm;
   quantity: number;
 }
-export interface IBoughtArr {
-  [index: number]: crptItm & string;
-  elem: IBoughtObj[];
-}
 
 export function ProfilePage() {
   const location = useLocation();
@@ -22,8 +18,9 @@ export function ProfilePage() {
   const [arrOfClickedElem, setArrOfClickedElem] = useState<crptItm[]>(
     location.state.data
   );
-  const [newBoughtsArr, setNewBoughtsArr] = useState<IBoughtArr[]>([]);
-  const [arrOfBoughtelem, setArrOfBoughtEl] = useState<IBoughtArr[]>([]);
+  const [arrOfBoughtEl, setArrOfBoughtEl] = useState<IBoughtObj[]>(
+    JSON.parse(localStorage.getItem("boughts") || "[]")
+  );
 
   const [wallet, setWallet] = useState<number>(
     parseFloat(localStorage.getItem("wallet") || "0")
@@ -34,6 +31,28 @@ export function ProfilePage() {
     else if (!isPurchase) setIsPurchase(true);
   };
 
+  useEffect(() => {
+    let arrT = arrOfBoughtEl;
+    console.log("boght", arrOfBoughtEl);
+
+    arrT.map((item: IBoughtObj) => {
+      let ind = Number(
+        arrT.findIndex((elem: IBoughtObj) => elem.arr.id === item.arr.id)
+      );
+      for (let j = 0; j < arrT.length; j++) {
+        if (item.arr.id === arrT[j].arr.id && j !== ind) {
+          console.log(item, "= item ", arrT[j], "arrT");
+          item.quantity += arrT[j].quantity;
+          console.log(item.quantity, "qua");
+          arrT = arrT.slice(0, j).concat(arrT.slice(j + 1));
+          setArrOfBoughtEl(arrT);
+          localStorage.setItem("boughts", JSON.stringify(arrT));
+        }
+      }
+      return item;
+    });
+    console.log("x", arrT);
+  }, [wallet]);
   useEffect(() => {
     if (!localStorage.getItem("arrOfData")) {
       localStorage.setItem("arrOfData", JSON.stringify(location.state.data));
@@ -51,28 +70,6 @@ export function ProfilePage() {
       localStorage.setItem("arrOfData", JSON.stringify(temp));
     }
   }, [location.state.data]);
-
-  useEffect(() => {
-    const newArrOfBoughtElem = arrOfBoughtelem.reduce((acc, arr) => {
-      if (!acc.length) acc.push(arr);
-      else {
-        const isSame = acc.filter(
-          (item: IBoughtArr) => item[0].id === arr[0].id
-        );
-
-        if (!isSame.length) {
-          acc.push(arr);
-        } else {
-          //  const index = acc.findIndex(isSame);
-          console.log(index, "ind");
-        }
-      }
-      setNewBoughtsArr(acc);
-      console.log("acc", acc);
-
-      return acc;
-    }, []);
-  }, [wallet]);
 
   return (
     <div className="mainContOfPage2">
@@ -96,17 +93,18 @@ export function ProfilePage() {
                 wallet={wallet}
                 setWallet={setWallet}
                 setArrOfBoughtEl={setArrOfBoughtEl}
+                arrOfBoughtEl={arrOfBoughtEl}
               />
             );
           })}
         </div>
       ) : (
         <div>
-          {newBoughtsArr.map((item: IBoughtArr) => {
+          {arrOfBoughtEl.map((item: IBoughtObj) => {
             return (
               <div>
-                <p>{item[0].name}</p>
-                <p>{item[1]}</p>
+                <p>{item.arr.name}</p>
+                <p>{item.quantity}</p>
               </div>
             );
           })}
