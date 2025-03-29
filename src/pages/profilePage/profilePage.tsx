@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useMemo, useRef, useState } from "react";
 import { useLocation, useNavigate } from "react-router";
 import { crptItm } from "../../types";
 import { CartsCryptoCard } from "../../components";
@@ -18,6 +18,7 @@ export function ProfilePage() {
   const [arrOfClickedElem, setArrOfClickedElem] = useState<crptItm[]>(
     location.state.data
   );
+  const [heightOfMCont2, setHeigh] = useState<number>(98);
   const [arrOfBoughtEl, setArrOfBoughtEl] = useState<IBoughtObj[]>(
     JSON.parse(localStorage.getItem("boughts") || "[]")
   );
@@ -41,7 +42,6 @@ export function ProfilePage() {
       );
       for (let j = 0; j < arrT.length; j++) {
         if (item.arr.id === arrT[j].arr.id && j !== ind) {
-          console.log(item, "= item ", arrT[j], "arrT");
           item.quantity += arrT[j].quantity;
           console.log(item.quantity, "qua");
           arrT = arrT.slice(0, j).concat(arrT.slice(j + 1));
@@ -51,7 +51,6 @@ export function ProfilePage() {
       }
       return item;
     });
-    console.log("x", arrT);
   }, [wallet]);
   useEffect(() => {
     if (!localStorage.getItem("arrOfData")) {
@@ -71,8 +70,32 @@ export function ProfilePage() {
     }
   }, [location.state.data]);
 
+  useMemo(() => {
+    if (JSON.parse(localStorage.getItem("arrOfData") || "[]").length <= 9) {
+      setHeigh(98);
+    } else {
+      let temp = Math.floor(
+        JSON.parse(localStorage.getItem("arrOfData") || "[]").length / 9
+      );
+
+      if (
+        JSON.parse(localStorage.getItem("arrOfData") || "[]").length % 9 !=
+        0
+      ) {
+        temp++;
+      }
+
+      setHeigh(58 * temp);
+    }
+  }, [JSON.parse(localStorage.getItem("arrOfData") || "[]").length]);
+
   return (
-    <div className="mainContOfPage2">
+    <div
+      className="mainContOfPage2"
+      style={{
+        height: `${heightOfMCont2}%`,
+      }}
+    >
       <ExitToMainMenu />
       {!isPurchase ? (
         <div className="cardContInCart">
@@ -99,15 +122,22 @@ export function ProfilePage() {
           })}
         </div>
       ) : (
-        <div>
-          {arrOfBoughtEl.map((item: IBoughtObj) => {
-            return (
-              <div>
-                <p>{item.arr.name}</p>
-                <p>{item.quantity}</p>
-              </div>
-            );
-          })}
+        <div className="bugthsCont">
+          {arrOfBoughtEl.length !== 0 ? (
+            arrOfBoughtEl.map((item: IBoughtObj) => {
+              return (
+                <div className="boughtsElem">
+                  <h2>{item.arr.name}</h2>
+                  <h3 className="quntCont">
+                    quantity that you bought -{" "}
+                    <p className="qunt">{item.quantity}</p>
+                  </h3>
+                </div>
+              );
+            })
+          ) : (
+            <h1>You bought nothing yet</h1>
+          )}
         </div>
       )}
 
