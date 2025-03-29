@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { crptItm } from "../../types";
 import "./cartCrtptCard.style.css";
-import { IBoughtArr } from "../../pages";
+import { IBoughtObj } from "../../pages";
 
 interface ICartsCryptoCard extends crptItm {
   item: crptItm;
@@ -9,7 +9,8 @@ interface ICartsCryptoCard extends crptItm {
   arrOfClickedElem: crptItm[];
   wallet: number;
   setWallet: (val: number) => void;
-  setArrOfBoughtEl: (val: IBoughtArr[]) => void;
+  setArrOfBoughtEl: (val: IBoughtObj[]) => void;
+  arrOfBoughtEl: IBoughtObj[];
 }
 
 export const CartsCryptoCard = ({
@@ -26,6 +27,7 @@ export const CartsCryptoCard = ({
   wallet,
   setArrOfBoughtEl,
   setWallet,
+  arrOfBoughtEl,
 }: ICartsCryptoCard) => {
   const [isClicked, setIsClicked] = useState<boolean>(false);
   const [quantity, setQuantity] = useState<string>("");
@@ -62,7 +64,12 @@ export const CartsCryptoCard = ({
           Number(workingElem[0].price_usd) * parseFloat(quantity)
         ).toFixed(3)}`
       );
-      setArrOfBoughtEl(prev => [...prev, [...workingElem, quantity]]);
+      const newAr = [
+        ...arrOfBoughtEl,
+        { arr: workingElem[0], quantity: Number(parseFloat(quantity)) },
+      ];
+      setArrOfBoughtEl(newAr);
+      localStorage.setItem("boughts", JSON.stringify(newAr));
 
       setWallet(
         Number(

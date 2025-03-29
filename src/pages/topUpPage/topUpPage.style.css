@@ -38,10 +38,16 @@
 .dateCont {
   display: flex;
 }
+.linkBtn {
+  height: 30px;
+  width: 80%;
+}
+
 .payBtn {
   height: 30px;
   font-size: 25px;
   margin-left: 20%;
+  width: 80%;
   text-align: center;
   padding-top: 2px;
   font-weight: 600;

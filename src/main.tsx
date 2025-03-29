@@ -8,7 +8,7 @@ import { TopUpPage } from "./pages/index.ts";
 
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
-    <BrowserRouter>
+    <BrowserRouter basename="/">
       <Routes>
         <Route path="/" element={<App />} />
         <Route path="/page2" element={<ProfilePage />} />
