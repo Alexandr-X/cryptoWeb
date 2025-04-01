@@ -11,7 +11,9 @@ function App() {
   const [isSearch, setIsSearch] = useState<boolean>(false);
   const [searchText, setText] = useState<string>("");
   const [isAddToCart, setIsAddToCart] = useState<boolean>(false);
-  const [arrOfCartsCrypta, setArrOfCartsCrypta] = useState<crptItm[]>([]);
+  const [arrOfCartsCrypta, setArrOfCartsCrypta] = useState<crptItm[]>(
+    JSON.parse(localStorage.getItem("arrOfData") || "[]")
+  );
   if (!localStorage.getItem("wallet")) {
     localStorage.setItem("wallet", "100");
   }

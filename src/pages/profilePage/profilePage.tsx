@@ -158,8 +158,13 @@ export function ProfilePage() {
         </div>
       )}
 
-      <div className="profInfo" onClick={handleOnImageClick}>
-        <img className="picture" src={pict} alt="" />
+      <div className="profInfo">
+        <img
+          className="picture"
+          src={pict}
+          onClick={handleOnImageClick}
+          alt=""
+        />
         <h1>Alexandr</h1>
         <span>wallet - {wallet}$</span>
         <NavLink to={"/topUpPage"} className="toPWrap">
