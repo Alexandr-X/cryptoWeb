@@ -69,12 +69,12 @@ a {
   transition: all 0.5s;
 }
 .boughtsElem h2,
-.boughtsElem h3 {
+.quntCont {
   width: 100%;
 }
+
 .quntCont {
   display: flex;
-  flex-wrap: wrap;
   justify-content: space-evenly;
 }
 .qunt {
@@ -85,4 +85,24 @@ a {
   border: 1px solid gray;
   border-radius: 10px;
   color: green;
+}
+.changePictCont {
+  position: absolute;
+  top: 10rem;
+  left: 30rem;
+  width: 50%;
+  height: 50%;
+  background-color: rgba(189, 189, 189, 0.56);
+  border: 2px solid black;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.inpPictCont {
+  display: flex;
+  justify-content: space-evenly;
+  width: 100%;
+}
+.inpPictCont input {
+  width: 300px;
 }
