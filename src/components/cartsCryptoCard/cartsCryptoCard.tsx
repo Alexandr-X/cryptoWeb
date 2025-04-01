@@ -49,7 +49,8 @@ export const CartsCryptoCard = ({
   };
 
   const handleOnInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setQuantity(e.target.value);
+    if (parseFloat(e.target.value) >= 0 || e.target.value == "")
+      setQuantity(e.target.value);
   };
 
   const handleOnBuyBtnClick = (e: React.MouseEvent<HTMLElement>) => {
