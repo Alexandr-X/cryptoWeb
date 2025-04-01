@@ -25,9 +25,10 @@ export const CryptoCard = ({
 }: Ia) => {
   const handleOnCardClick = (event: React.MouseEvent) => {
     let temp = false;
+    console.log("item", item, "arr", arrOfCartsCrypta);
 
     for (let i = 0; i < arrOfCartsCrypta.length; i++) {
-      if (item == arrOfCartsCrypta[i]) {
+      if (item.id === arrOfCartsCrypta[i].id) {
         temp = true;
       }
     }
