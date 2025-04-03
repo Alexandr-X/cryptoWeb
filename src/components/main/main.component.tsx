@@ -12,6 +12,7 @@ interface ISearchValue {
   setIsAddToCart: (value: boolean) => void;
   setArrOfCartsCrypta: (arr: crptItm[]) => void;
   arrOfCartsCrypta: crptItm[];
+  isSortWindow: boolean;
 }
 
 export const Main = ({
@@ -21,6 +22,7 @@ export const Main = ({
   setIsAddToCart,
   setArrOfCartsCrypta,
   arrOfCartsCrypta,
+  isSortWindow,
 }: ISearchValue) => {
   const [start, setStartVal] = useState<number>(0);
   const [limit, setlimitVal] = useState<number>(6);
@@ -49,7 +51,7 @@ export const Main = ({
     } else {
       setHeight((parseInt(filteredCryptoData.length) / 6) * 80);
       if (parseInt(filteredCryptoData.length) % 6 !== 0) {
-        setHeight(height => height + 80);
+        setHeight((height) => height + 80);
       }
     }
   }, [filteredCryptoData?.length]);
@@ -91,6 +93,23 @@ export const Main = ({
         </div>
       ) : (
         ""
+      )}
+      {isSortWindow ? (
+        <div className="sortCont" style={{ left: "1rem" }}>
+          <form action="">
+            <input type="text" />
+            <input type="text" />
+            <input type="submit" />
+          </form>
+        </div>
+      ) : (
+        <div className="sortCont" style={{ left: "-20rem" }}>
+          <form action="">
+            <input type="text" />
+            <input type="text" />
+            <input type="submit" />
+          </form>
+        </div>
       )}
     </div>
   );

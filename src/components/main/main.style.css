@@ -46,3 +46,14 @@
   border-radius: 5px;
   transition: all 0.5s;
 }
+.sortCont {
+  transition: all 0.5s;
+  position: absolute;
+  width: 200px;
+  height: 58%;
+  border: 2px solid black;
+  left: -20rem;
+}
+.sortCont form input {
+  width: 100%;
+}
