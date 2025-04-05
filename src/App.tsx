@@ -14,6 +14,8 @@ function App() {
   const [arrOfCartsCrypta, setArrOfCartsCrypta] = useState<crptItm[]>(
     JSON.parse(localStorage.getItem("arrOfData") || "[]")
   );
+  const [isSortWindow, setIsStoreWindow] = useState<boolean>(false);
+
   if (!localStorage.getItem("wallet")) {
     localStorage.setItem("wallet", "100");
   }
@@ -27,6 +29,8 @@ function App() {
         setIsSearch={setIsSearch}
         setText={setText}
         arrOfCartsCrypta={arrOfCartsCrypta}
+        setIsStoreWindow={setIsStoreWindow}
+        isSortWindow={isSortWindow}
       />
       <QueryClientProvider client={queryClient}>
         <Main
@@ -36,6 +40,7 @@ function App() {
           setIsAddToCart={setIsAddToCart}
           setArrOfCartsCrypta={setArrOfCartsCrypta}
           arrOfCartsCrypta={arrOfCartsCrypta}
+          isSortWindow={isSortWindow}
         />
       </QueryClientProvider>
     </>
