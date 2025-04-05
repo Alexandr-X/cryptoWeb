@@ -29,20 +29,47 @@ export const Main = ({
   const { data: cryptoData, isError, isLoading } = useCryptoData(start, limit);
   const [height, setHeight] = useState<number>(0);
   const [top, setTop] = useState<number>(0);
-
-  const filteredCryptoData = useMemo(() => {
-    return isSearch
-      ? cryptoData?.data.data.filter(
-          (item: crptItm) =>
-            item.name.includes(searchText) || item.nameid.includes(searchText)
-        )
-      : cryptoData?.data.data;
-  }, [cryptoData, limit, searchText]);
+  const [left, setLeft] = useState<number>(-20);
+  const [fromCost, setFromCost] = useState<string>("");
+  const [toCost, setToCost] = useState<string>("");
+  const [isFindBtnClick, setIsFindBtnClick] = useState<boolean>(false);
+  const [findBtnText, setFindBtnText] = useState<string>("find");
 
   const handleOnButtonClick = () => {
     setlimitVal(limit + 6);
     setHeight(height + 80);
   };
+
+  const handleOnInpCostChange = (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    if (event.target.className == "frm") setFromCost(event.target.value);
+    else if (event.target.className == "to") setToCost(event.target.value);
+  };
+
+  const handleOnFindBtnClick = () => {
+    if (fromCost == "" && toCost == "" && !isFindBtnClick) console.log("");
+    else setIsFindBtnClick(!isFindBtnClick);
+
+    setFindBtnText(isFindBtnClick ? "find" : "back");
+    console.log(findBtnText);
+  };
+
+  const filteredCryptoData = useMemo(() => {
+    return !isFindBtnClick
+      ? isSearch
+        ? cryptoData?.data.data.filter(
+            (item: crptItm) =>
+              item.name.includes(searchText) || item.nameid.includes(searchText)
+          )
+        : cryptoData?.data.data
+      : cryptoData?.data.data.filter(
+          (item: crptItm) =>
+            Number(item.price_usd) >= Number(fromCost) &&
+            Number(item.price_usd) <= Number(toCost)
+        );
+  }, [cryptoData, limit, searchText, isFindBtnClick]);
+
   useEffect(() => {
     if (!filteredCryptoData) {
       setHeight(0);
@@ -51,11 +78,14 @@ export const Main = ({
     } else {
       setHeight((parseInt(filteredCryptoData.length) / 6) * 80);
       if (parseInt(filteredCryptoData.length) % 6 !== 0) {
-        setHeight((height) => height + 80);
+        setHeight(height => height + 80);
       }
     }
   }, [filteredCryptoData?.length]);
 
+  useEffect(() => {
+    setLeft(isSortWindow ? 1 : -20);
+  }, [isSortWindow]);
   if (isError) {
     return <h1>Error</h1>;
   }
@@ -94,23 +124,31 @@ export const Main = ({
       ) : (
         ""
       )}
-      {isSortWindow ? (
-        <div className="sortCont" style={{ left: "1rem" }}>
-          <form action="">
-            <input type="text" />
-            <input type="text" />
-            <input type="submit" />
-          </form>
+
+      <div className="sortCont" style={{ left: `${left}rem` }}>
+        <div className="sortInpCont">
+          {" "}
+          <input
+            value={fromCost}
+            type="text"
+            placeholder="from"
+            className="frm"
+            onChange={handleOnInpCostChange}
+          />
+          <input
+            value={toCost}
+            type="text"
+            placeholder="to"
+            className="to"
+            onChange={handleOnInpCostChange}
+          />
         </div>
-      ) : (
-        <div className="sortCont" style={{ left: "-20rem" }}>
-          <form action="">
-            <input type="text" />
-            <input type="text" />
-            <input type="submit" />
-          </form>
+
+        <div className="findBtn" onClick={handleOnFindBtnClick}>
+          {findBtnText}
+          <div className="aft"></div>
         </div>
-      )}
+      </div>
     </div>
   );
 };

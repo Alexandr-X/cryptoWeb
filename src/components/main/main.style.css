@@ -49,11 +49,48 @@
 .sortCont {
   transition: all 0.5s;
   position: absolute;
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: column;
+  justify-content: space-evenly;
+  align-items: center;
   width: 200px;
   height: 58%;
   border: 2px solid black;
-  left: -20rem;
 }
-.sortCont form input {
+
+.sortInpCont {
+  display: flex;
+  justify-content: space-evenly;
   width: 100%;
+}
+.sortCont input {
+  width: 90px;
+  height: 50px;
+  font-size: 20px;
+}
+.findBtn {
+  cursor: pointer;
+  width: 150px;
+  height: 40px;
+  font-size: 30px;
+  text-align: center;
+  transition: all 0.5s;
+  display: flex;
+  padding-left: 40px;
+}
+.findBtn:hover {
+  transform: scale(1.1);
+}
+.findBtn::after {
+  content: "->";
+  position: relative;
+  left: -20rem;
+  visibility: hidden;
+  transition: all 0.5s;
+}
+.findBtn:hover::after {
+  padding-left: 12px;
+  left: 0;
+  visibility: visible;
 }
