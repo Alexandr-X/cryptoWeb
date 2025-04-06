@@ -6,7 +6,9 @@ import { NavLink } from "react-router";
 export const TopUpPage = () => {
   const [money, setMoney] = useState<string>("");
   const handleOnConfirmBtnclick = () => {
-    if (localStorage.getItem("wallet") && money != "") {
+    if (Number(money) < 0) {
+      console.log("asde");
+    } else if (localStorage.getItem("wallet") && money != "") {
       localStorage.setItem(
         "wallet",
         `${(
