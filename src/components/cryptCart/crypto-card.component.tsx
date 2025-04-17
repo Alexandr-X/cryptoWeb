@@ -12,10 +12,7 @@ interface Ia extends crptItm {
 export const CryptoCard = ({
   id,
   name,
-  tsupply,
   price_usd,
-  nameid,
-  rank,
   percent_change_1h,
   setIsAddToCart,
   setTop,

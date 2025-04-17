@@ -16,10 +16,7 @@ interface ICartsCryptoCard extends crptItm {
 export const CartsCryptoCard = ({
   id,
   name,
-  tsupply,
   price_usd,
-  nameid,
-  rank,
   percent_change_1h,
   item,
   setArrOfClickedElem,
@@ -34,7 +31,7 @@ export const CartsCryptoCard = ({
 
   useEffect(() => {
     if (isClicked) {
-      const newArr = arrOfClickedElem.filter(elem => elem.id !== item.id);
+      const newArr = arrOfClickedElem.filter((elem) => elem.id !== item.id);
 
       setArrOfClickedElem(newArr);
 

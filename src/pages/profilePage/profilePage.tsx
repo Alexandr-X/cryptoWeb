@@ -79,7 +79,7 @@ export function ProfilePage() {
 
       temp = Array.from(
         new Set(temp.map((item: crptItm) => JSON.stringify(item)))
-      ).map(item => JSON.parse(item));
+      ).map((item) => JSON.parse(item));
 
       setArrOfClickedElem(temp);
 
@@ -143,12 +143,12 @@ export function ProfilePage() {
           {arrOfBoughtEl.length !== 0 ? (
             arrOfBoughtEl.map((item: IBoughtObj) => {
               return (
-                <div className="boughtsElem">
+                <div className="boughtsElem" key={item.arr.id}>
                   <h2>{item.arr.name}</h2>
-                  <p className="quntCont">
+                  <div className="quntCont">
                     quantity that you bought -{" "}
                     <p className="qunt">{item.quantity}</p>
-                  </p>
+                  </div>
                 </div>
               );
             })
