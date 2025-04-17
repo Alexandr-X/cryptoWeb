@@ -1,4 +1,3 @@
-import React from "react";
 import "./exit.style.css";
 import { NavLink } from "react-router";
 
