@@ -1,4 +1,4 @@
-import React, { JSX, useEffect, useState } from "react";
+
 import { crptItm } from "../../types";
 import { CryptoCard } from "../cryptCart/crypto-card.component";
 import { ICryptoList } from "../../types/cryptoList/ICryptoList.interface";
