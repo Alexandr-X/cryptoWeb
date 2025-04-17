@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { crptItm } from "../../types";
 import "./cryptaEl.style.css";
 interface Ia extends crptItm {
@@ -48,7 +48,7 @@ export const CryptoCard = ({
     <div
       key={id}
       className="cryptoCont"
-      onClick={event => handleOnCardClick(event)}
+      onClick={(event) => handleOnCardClick(event)}
     >
       <h2 className="cryptoName">{name}</h2>
       <p className="supply">change per hour {percent_change_1h}%</p>

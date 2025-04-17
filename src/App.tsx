@@ -2,7 +2,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import "./App.css";
 import { Footer } from "./components";
 import { Main } from "./components";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { crptItm } from "./types";
 
 const queryClient = new QueryClient();
