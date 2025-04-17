@@ -1,4 +1,4 @@
-import { JSX } from "react/jsx-runtime";
+
 
 export interface crptItm {
   id: string;

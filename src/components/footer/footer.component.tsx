@@ -37,10 +37,7 @@ export const Footer = ({ setIsSearch, setText, arrOfCartsCrypta ,setIsStoreWindo
         arrOfCartsCrypta={arrOfCartsCrypta}
         id={2}
         setIsStoreWindow={setIsStoreWindow}
-        src={
-          "https://as2.ftcdn.net/jpg/02/74/05/81/1000_F_274058177_sKpnAT94o2Gal205KRwbsgVtjmu8wPpe.jpg"
-        }
-      />
+        src={"https://as2.ftcdn.net/jpg/02/74/05/81/1000_F_274058177_sKpnAT94o2Gal205KRwbsgVtjmu8wPpe.jpg"} isSortWindow={false}      />
     </div>
   );
 };
