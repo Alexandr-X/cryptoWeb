@@ -50,9 +50,9 @@ export const CartsCryptoCard = ({
       setQuantity(e.target.value);
   };
 
-  const handleOnBuyBtnClick = (e: React.MouseEvent<HTMLElement>) => {
+  const handleOnBuyBtnClick = () => {
     const workingElem = arrOfClickedElem.filter(
-      (item: crptItm) => item.id == e.target.parentElement?.parentElement?.id
+      (item: crptItm) => item.id == id
     );
     if (Number(workingElem[0].price_usd) * parseFloat(quantity) <= wallet) {
       localStorage.setItem(
