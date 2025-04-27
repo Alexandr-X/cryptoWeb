@@ -7,6 +7,7 @@ import { ProfilePage } from "./pages/index.ts";
 import { TopUpPage } from "./pages/index.ts";
 import { store } from "./redux/store.ts";
 import { Provider } from "react-redux";
+import { RegPage } from "./pages/index.ts";
 
 const container = document.getElementById("root");
 
@@ -16,8 +17,9 @@ if (container) {
   root.render(
     <StrictMode>
       <Provider store={store}>
-        <BrowserRouter basename="/">
+        <BrowserRouter>
           <Routes>
+            <Route path="/reg" element={<RegPage />} />
             <Route path="/" element={<App />} />
             <Route path="/page2" element={<ProfilePage />} />
             <Route path="/topUPpage" element={<TopUpPage />} />
