@@ -7,7 +7,7 @@ import "./profilePage.style.css";
 import { NavLink } from "react-router";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../redux";
-import { changeLogo } from "../../redux/reducers/pictureSlice";
+import { changeLogo } from "../../redux/reducers/userDataSlice";
 
 export interface IBoughtObj {
   arr: crptItm;
