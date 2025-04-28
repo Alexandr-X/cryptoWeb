@@ -1,4 +1,3 @@
-import React from "react";
 import "./square.style.css";
 import { NavLink } from "react-router";
 import { crptItm } from "../../types";
@@ -18,7 +17,7 @@ export const Square = ({
   setIsStoreWindow,
   isSortWindow,
 }: sqrType) => {
-  const onClickTest = (e: React.MouseEvent) => {
+  const onClickTest = () => {
     console.log(isSortWindow);
     if (id === 1) {
       setIsStoreWindow(!isSortWindow);
@@ -26,7 +25,7 @@ export const Square = ({
   };
   return id === 2 ? (
     <NavLink
-      onClick={(e) => onClickTest(e)}
+      onClick={onClickTest}
       to={"/page2"}
       className="imgCont"
       state={{ data: arrOfCartsCrypta }}
@@ -34,7 +33,7 @@ export const Square = ({
       <img src={src} className="image" />
     </NavLink>
   ) : (
-    <div onClick={(e) => onClickTest(e)} className="imgCont">
+    <div onClick={onClickTest} className="imgCont">
       <img src={src} className="image" />
     </div>
   );

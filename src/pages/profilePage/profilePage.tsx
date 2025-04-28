@@ -1,5 +1,5 @@
-import React, { useEffect, useMemo, useRef, useState } from "react";
-import { useLocation, useNavigate } from "react-router";
+import React, { useEffect, useMemo, useState } from "react";
+import { useLocation } from "react-router";
 import { crptItm } from "../../types";
 import { CartsCryptoCard } from "../../components";
 import { ExitToMainMenu } from "../../components";
@@ -7,7 +7,7 @@ import "./profilePage.style.css";
 import { NavLink } from "react-router";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../redux";
-import { changeLogo } from "../../redux/reducers/pictureSlice";
+import { changeLogo } from "../../redux/reducers/userDataSlice";
 
 export interface IBoughtObj {
   arr: crptItm;
@@ -79,7 +79,7 @@ export function ProfilePage() {
 
       temp = Array.from(
         new Set(temp.map((item: crptItm) => JSON.stringify(item)))
-      ).map(item => JSON.parse(item));
+      ).map((item) => JSON.parse(item as any));
 
       setArrOfClickedElem(temp);
 
@@ -122,10 +122,7 @@ export function ProfilePage() {
                 key={item.id}
                 id={item.id}
                 name={item.name}
-                tsupply={item.tsupply}
                 price_usd={item.price_usd}
-                nameid={item.nameid}
-                rank={item.rank}
                 percent_change_1h={item.percent_change_1h}
                 item={item}
                 setArrOfClickedElem={setArrOfClickedElem}
@@ -143,12 +140,12 @@ export function ProfilePage() {
           {arrOfBoughtEl.length !== 0 ? (
             arrOfBoughtEl.map((item: IBoughtObj) => {
               return (
-                <div className="boughtsElem">
+                <div className="boughtsElem" key={item.arr.id}>
                   <h2>{item.arr.name}</h2>
-                  <p className="quntCont">
+                  <div className="quntCont">
                     quantity that you bought -{" "}
                     <p className="qunt">{item.quantity}</p>
-                  </p>
+                  </div>
                 </div>
               );
             })

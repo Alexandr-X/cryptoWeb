@@ -1,7 +1,6 @@
 import React, { useEffect, useMemo, useState } from "react";
 import { useCryptoData } from "../../features";
 import { crptItm } from "../../types";
-import { CryptoCard } from "../cryptCart/crypto-card.component";
 import "./main.style.css";
 import { CryptoList } from "../cryptoList";
 
@@ -24,9 +23,8 @@ export const Main = ({
   arrOfCartsCrypta,
   isSortWindow,
 }: ISearchValue) => {
-  const [start, setStartVal] = useState<number>(0);
   const [limit, setlimitVal] = useState<number>(6);
-  const { data: cryptoData, isError, isLoading } = useCryptoData(start, limit);
+  const { data: cryptoData, isError, isLoading } = useCryptoData(0, limit);
   const [height, setHeight] = useState<number>(0);
   const [top, setTop] = useState<number>(0);
   const [left, setLeft] = useState<number>(-20);
@@ -59,8 +57,7 @@ export const Main = ({
     return !isFindBtnClick
       ? isSearch
         ? cryptoData?.data.data.filter(
-            (item: crptItm) =>
-              item.name.includes(searchText) || item.nameid.includes(searchText)
+            (item: crptItm) => item.name.includes(searchText) //|| item.nameid.includes(searchText)
           )
         : cryptoData?.data.data
       : cryptoData?.data.data.filter(
@@ -78,7 +75,7 @@ export const Main = ({
     } else {
       setHeight((parseInt(filteredCryptoData.length) / 6) * 80);
       if (parseInt(filteredCryptoData.length) % 6 !== 0) {
-        setHeight(height => height + 80);
+        setHeight((height) => height + 80);
       }
     }
   }, [filteredCryptoData?.length]);

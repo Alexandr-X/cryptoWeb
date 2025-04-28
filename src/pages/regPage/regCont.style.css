@@ -1,0 +1,42 @@
+.regCont {
+  border: 2px solid black;
+  width: 400px;
+  height: 400px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-evenly;
+  align-items: center;
+}
+.inpRegCont {
+  display: flex;
+  justify-content: space-evenly;
+  flex-wrap: wrap;
+  height: 200px;
+}
+.inpRegCont input {
+  width: 350px;
+  height: 40px;
+  font-size: 35px;
+  border: 2px solid black;
+}
+.btnCont {
+  width: 350px;
+  height: 150px;
+  display: flex;
+  justify-content: space-around;
+}
+.btnCont div {
+  border: 2px solid black;
+  height: 25px;
+  width: 100px;
+  text-align: center;
+  font-size: 20px;
+  padding-bottom: 25px;
+  transition: all 0.5s;
+}
+.btnCont div:hover {
+  cursor: pointer;
+  border-radius: 15px;
+  background-color: rgba(134, 134, 134, 0.589);
+  color: rgb(33, 4, 161);
+}

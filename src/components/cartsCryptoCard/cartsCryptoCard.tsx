@@ -16,10 +16,7 @@ interface ICartsCryptoCard extends crptItm {
 export const CartsCryptoCard = ({
   id,
   name,
-  tsupply,
   price_usd,
-  nameid,
-  rank,
   percent_change_1h,
   item,
   setArrOfClickedElem,
@@ -34,7 +31,7 @@ export const CartsCryptoCard = ({
 
   useEffect(() => {
     if (isClicked) {
-      const newArr = arrOfClickedElem.filter(elem => elem.id !== item.id);
+      const newArr = arrOfClickedElem.filter((elem) => elem.id !== item.id);
 
       setArrOfClickedElem(newArr);
 
@@ -53,9 +50,9 @@ export const CartsCryptoCard = ({
       setQuantity(e.target.value);
   };
 
-  const handleOnBuyBtnClick = (e: React.MouseEvent<HTMLElement>) => {
+  const handleOnBuyBtnClick = () => {
     const workingElem = arrOfClickedElem.filter(
-      (item: crptItm) => item.id == e.target.parentElement?.parentElement?.id
+      (item: crptItm) => item.id == id
     );
     if (Number(workingElem[0].price_usd) * parseFloat(quantity) <= wallet) {
       localStorage.setItem(
