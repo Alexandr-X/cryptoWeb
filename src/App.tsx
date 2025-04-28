@@ -16,9 +16,6 @@ function App() {
   );
   const [isSortWindow, setIsStoreWindow] = useState<boolean>(false);
 
-  if (!localStorage.getItem("wallet")) {
-    localStorage.setItem("wallet", "100");
-  }
   if (!localStorage.getItem("boughts")) {
     localStorage.setItem("boughts", "[]");
   }

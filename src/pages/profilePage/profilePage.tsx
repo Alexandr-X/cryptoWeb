@@ -8,14 +8,15 @@ import { NavLink } from "react-router";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../redux";
 import { changeLogo } from "../../redux/reducers/userDataSlice";
-
+import { io } from "socket.io-client";
 export interface IBoughtObj {
   arr: crptItm;
   quantity: number;
 }
+const socket = io("http://localhost:5000");
 
 export function ProfilePage() {
-  const pict = useSelector((state: RootState) => state.avatarStore);
+  const userData = useSelector((state: RootState) => state.userDataStore);
   const dispatch = useDispatch();
   const location = useLocation();
   const [imgUrl, setUrl] = useState<string>("");
@@ -29,24 +30,19 @@ export function ProfilePage() {
     JSON.parse(localStorage.getItem("boughts") || "[]")
   );
 
-  const [wallet, setWallet] = useState<number>(
-    parseFloat(localStorage.getItem("wallet") || "0")
-  );
-
   const handleOnChangeContDataClick = () => {
     if (isPurchase) setIsPurchase(false);
     else if (!isPurchase) setIsPurchase(true);
   };
   const handleOnImageClick = () => {
-    // dispatch(chabgeLogo({ logo: "link" }));
     setIsChange(!isChangePict);
-    console.log(pict);
   };
   const handleOnInpUrlClick = (e: React.ChangeEvent<HTMLInputElement>) => {
     setUrl(e.target.value);
   };
   const handleOnChangePictClick = () => {
     dispatch(changeLogo({ logo: imgUrl }));
+    socket.emit("changeLogo", { logo: imgUrl, email: userData.email });
   };
 
   useEffect(() => {
@@ -68,7 +64,7 @@ export function ProfilePage() {
       }
       return item;
     });
-  }, [wallet]);
+  }, [userData.wallet]);
   useEffect(() => {
     if (!localStorage.getItem("arrOfData")) {
       localStorage.setItem("arrOfData", JSON.stringify(location.state.data));
@@ -79,7 +75,7 @@ export function ProfilePage() {
 
       temp = Array.from(
         new Set(temp.map((item: crptItm) => JSON.stringify(item)))
-      ).map((item) => JSON.parse(item as any));
+      ).map(item => JSON.parse(item as any));
 
       setArrOfClickedElem(temp);
 
@@ -127,8 +123,6 @@ export function ProfilePage() {
                 item={item}
                 setArrOfClickedElem={setArrOfClickedElem}
                 arrOfClickedElem={arrOfClickedElem}
-                wallet={wallet}
-                setWallet={setWallet}
                 setArrOfBoughtEl={setArrOfBoughtEl}
                 arrOfBoughtEl={arrOfBoughtEl}
               />
@@ -158,12 +152,12 @@ export function ProfilePage() {
       <div className="profInfo">
         <img
           className="picture"
-          src={pict}
+          src={userData.logo}
           onClick={handleOnImageClick}
           alt=""
         />
-        <h1>Alexandr</h1>
-        <span>wallet - {wallet}$</span>
+        <h1>{userData.name}</h1>
+        <h2 className="wallet">wallet - {userData.wallet}$</h2>
         <NavLink to={"/topUpPage"} className="toPWrap">
           <div className="balance">top up</div>
         </NavLink>

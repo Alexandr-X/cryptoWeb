@@ -2,18 +2,30 @@ import React, { useState } from "react";
 import "./topUpPage.style.css";
 import { ExitToMainMenu } from "../../components";
 import { NavLink } from "react-router";
+import { useDispatch, useSelector } from "react-redux";
+import { RootState } from "../../redux";
+import { changeWallet } from "../../redux/reducers/userDataSlice";
+import { io } from "socket.io-client";
+
+const socket = io("http://localhost:5000");
 
 export const TopUpPage = () => {
   const [money, setMoney] = useState<string>("");
+  const dispatch = useDispatch();
+  const userData = useSelector((state: RootState) => state.userDataStore);
+
   const handleOnConfirmBtnclick = () => {
     if (Number(money) < 0) {
       console.log("asde");
-    } else if (localStorage.getItem("wallet") && money != "") {
-      localStorage.setItem(
-        "wallet",
-        `${(
-          parseFloat(localStorage.getItem("wallet") || "0") + parseFloat(money)
-        ).toFixed(3)}`
+    } else if (money != "") {
+      socket.emit("changeMoney", {
+        email: userData.email,
+        wallet: Number((userData.wallet + parseFloat(money)).toFixed(3)),
+      });
+      dispatch(
+        changeWallet({
+          wallet: Number((userData.wallet + parseFloat(money)).toFixed(3)),
+        })
       );
     }
   };

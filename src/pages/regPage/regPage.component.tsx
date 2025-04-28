@@ -2,6 +2,14 @@ import { useState } from "react";
 import "./regCont.style.css";
 import { io } from "socket.io-client";
 import { useNavigate } from "react-router";
+import {
+  changeEmail,
+  changeLogo,
+  changeName,
+  changeWallet,
+  userDataSlice,
+} from "../../redux/reducers/userDataSlice";
+import { useDispatch } from "react-redux";
 
 const socket = io("http://localhost:5000");
 
@@ -12,6 +20,7 @@ export const RegPage = () => {
   const [password, setPassword] = useState<string>("");
   const [border, setBorder] = useState<string>("black");
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const handleOnSignBtnClick = () => {
     setIsSignIn(!isSignIn);
@@ -42,8 +51,15 @@ export const RegPage = () => {
       } else if (isSignIn) {
         socket.emit("isCorrectLogin", { email: email, password: password });
       }
-      socket.on("isCorrectReg", (data) => {
+      socket.on("isCorrectReg", async data => {
         if (data) {
+          socket.emit("getAddInform", email);
+          socket.on("giveAddInform", inform => {
+            dispatch(changeLogo({ logo: inform.logo }));
+            dispatch(changeWallet({ wallet: inform.money }));
+            dispatch(changeEmail({ email }));
+            dispatch(changeName({ name }));
+          });
           navigate("/");
         } else {
           setBorder("red");

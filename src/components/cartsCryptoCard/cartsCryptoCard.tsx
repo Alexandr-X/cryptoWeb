@@ -2,13 +2,16 @@ import React, { useEffect, useState } from "react";
 import { crptItm } from "../../types";
 import "./cartCrtptCard.style.css";
 import { IBoughtObj } from "../../pages";
+import { useDispatch, useSelector } from "react-redux";
+import { changeWallet } from "../../redux/reducers/userDataSlice";
+import { RootState } from "../../redux";
+import { io } from "socket.io-client";
 
+const socket = io("http://localhost:5000");
 interface ICartsCryptoCard extends crptItm {
   item: crptItm;
   setArrOfClickedElem: (val: crptItm[]) => void;
   arrOfClickedElem: crptItm[];
-  wallet: number;
-  setWallet: (val: number) => void;
   setArrOfBoughtEl: (val: IBoughtObj[]) => void;
   arrOfBoughtEl: IBoughtObj[];
 }
@@ -21,17 +24,17 @@ export const CartsCryptoCard = ({
   item,
   setArrOfClickedElem,
   arrOfClickedElem,
-  wallet,
   setArrOfBoughtEl,
-  setWallet,
   arrOfBoughtEl,
 }: ICartsCryptoCard) => {
+  const dispatch = useDispatch();
+  const userData = useSelector((state: RootState) => state.userDataStore);
   const [isClicked, setIsClicked] = useState<boolean>(false);
   const [quantity, setQuantity] = useState<string>("");
 
   useEffect(() => {
     if (isClicked) {
-      const newArr = arrOfClickedElem.filter((elem) => elem.id !== item.id);
+      const newArr = arrOfClickedElem.filter(elem => elem.id !== item.id);
 
       setArrOfClickedElem(newArr);
 
@@ -54,29 +57,36 @@ export const CartsCryptoCard = ({
     const workingElem = arrOfClickedElem.filter(
       (item: crptItm) => item.id == id
     );
-    if (Number(workingElem[0].price_usd) * parseFloat(quantity) <= wallet) {
-      localStorage.setItem(
-        "wallet",
-        `${(
-          wallet -
-          Number(workingElem[0].price_usd) * parseFloat(quantity)
-        ).toFixed(3)}`
+    if (
+      Number(workingElem[0].price_usd) * parseFloat(quantity) <=
+      userData.wallet
+    ) {
+      socket.emit("changeMoney", {
+        email: userData.email,
+        wallet: Number(
+          (
+            userData.wallet -
+            Number(workingElem[0].price_usd) * parseFloat(quantity)
+          ).toFixed(3)
+        ),
+      });
+      dispatch(
+        changeWallet({
+          wallet: Number(
+            (
+              userData.wallet -
+              Number(workingElem[0].price_usd) * parseFloat(quantity)
+            ).toFixed(3)
+          ),
+        })
       );
+
       const newAr = [
         ...arrOfBoughtEl,
         { arr: workingElem[0], quantity: Number(parseFloat(quantity)) },
       ];
       setArrOfBoughtEl(newAr);
       localStorage.setItem("boughts", JSON.stringify(newAr));
-
-      setWallet(
-        Number(
-          (
-            wallet -
-            Number(workingElem[0].price_usd) * parseFloat(quantity)
-          ).toFixed(3)
-        )
-      );
     } else if (quantity != "")
       alert("you have no many:( pls top up your card or choose less crypto.");
   };
