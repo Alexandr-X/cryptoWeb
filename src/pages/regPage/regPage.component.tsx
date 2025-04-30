@@ -7,9 +7,10 @@ import {
   changeLogo,
   changeName,
   changeWallet,
-  userDataSlice,
 } from "../../redux/reducers/userDataSlice";
 import { useDispatch } from "react-redux";
+import { changeArr } from "../../redux/reducers/arrOfBoughts.reducer";
+import { changeArrOfPinCrpt } from "../../redux/reducers/arrOfPinCrpt.reducer";
 
 const socket = io("http://localhost:5000");
 
@@ -59,6 +60,8 @@ export const RegPage = () => {
             dispatch(changeWallet({ wallet: inform.money }));
             dispatch(changeEmail({ email }));
             dispatch(changeName({ name }));
+            dispatch(changeArr({ arr: inform.arr }));
+            dispatch(changeArrOfPinCrpt({ arr: inform.arrOfPin }));
           });
           navigate("/");
         } else {

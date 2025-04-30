@@ -6,13 +6,12 @@ import { useDispatch, useSelector } from "react-redux";
 import { changeWallet } from "../../redux/reducers/userDataSlice";
 import { RootState } from "../../redux";
 import { io } from "socket.io-client";
+import { changeArr } from "../../redux/reducers/arrOfBoughts.reducer";
+import { changeArrOfPinCrpt } from "../../redux/reducers/arrOfPinCrpt.reducer";
 
 const socket = io("http://localhost:5000");
 interface ICartsCryptoCard extends crptItm {
   item: crptItm;
-  setArrOfClickedElem: (val: crptItm[]) => void;
-  arrOfClickedElem: crptItm[];
-  setArrOfBoughtEl: (val: IBoughtObj[]) => void;
   arrOfBoughtEl: IBoughtObj[];
 }
 
@@ -22,26 +21,28 @@ export const CartsCryptoCard = ({
   price_usd,
   percent_change_1h,
   item,
-  setArrOfClickedElem,
-  arrOfClickedElem,
-  setArrOfBoughtEl,
   arrOfBoughtEl,
 }: ICartsCryptoCard) => {
   const dispatch = useDispatch();
   const userData = useSelector((state: RootState) => state.userDataStore);
+  const arrOfClickedElem = JSON.parse(
+    useSelector((state: RootState) => state.arrOfPinCrpt)
+  );
   const [isClicked, setIsClicked] = useState<boolean>(false);
   const [quantity, setQuantity] = useState<string>("");
 
   useEffect(() => {
     if (isClicked) {
-      const newArr = arrOfClickedElem.filter(elem => elem.id !== item.id);
+      const newArr = arrOfClickedElem.filter(
+        (elem: crptItm) => elem.id !== item.id
+      );
 
-      setArrOfClickedElem(newArr);
-
-      localStorage.removeItem("arrOfData");
-      console.log(newArr, "new");
-      localStorage.setItem("arrOfData", JSON.stringify(newArr)),
-        setIsClicked(false);
+      dispatch(changeArrOfPinCrpt({ arr: JSON.stringify(newArr) }));
+      socket.emit("udpArrOfPinCrpt", {
+        email: userData.email,
+        arr: JSON.stringify(newArr),
+      });
+      setIsClicked(false);
     }
   }, [isClicked]);
   const handleOnDeleteClick = () => {
@@ -85,8 +86,8 @@ export const CartsCryptoCard = ({
         ...arrOfBoughtEl,
         { arr: workingElem[0], quantity: Number(parseFloat(quantity)) },
       ];
-      setArrOfBoughtEl(newAr);
-      localStorage.setItem("boughts", JSON.stringify(newAr));
+      socket.emit("updArrofBoughts", { email: userData.email, arr: newAr });
+      dispatch(changeArr({ arr: JSON.stringify(newAr) }));
     } else if (quantity != "")
       alert("you have no many:( pls top up your card or choose less crypto.");
   };

@@ -77,13 +77,7 @@ export const TopUpPage = () => {
               onChange={handleOnMoneyChange}
             />
           </div>
-          <NavLink
-            className="linkBtn"
-            to={"/page2"}
-            state={{
-              data: JSON.parse(localStorage.getItem("arrOfData") || "[]"),
-            }}
-          >
+          <NavLink className="linkBtn" to={"/page2"}>
             {" "}
             <div className="payBtn" onClick={handleOnConfirmBtnclick}>
               Confirm Payment
