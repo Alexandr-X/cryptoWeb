@@ -1,9 +1,13 @@
 import { configureStore } from "@reduxjs/toolkit";
-import picture from "./reducers/userDataSlice";
+import user from "./reducers/userDataSlice";
+import boughtsCrpt from "./reducers/arrOfBoughts.reducer";
+import pinArr from "./reducers/arrOfPinCrpt.reducer";
 
 export const store = configureStore({
   reducer: {
-    avatarStore: picture,
+    userDataStore: user,
+    arrOfBoughts: boughtsCrpt,
+    arrOfPinCrpt: pinArr,
   },
 });
 

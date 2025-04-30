@@ -1,4 +1,3 @@
-
 import { crptItm } from "../../types";
 import { CryptoCard } from "../cryptCart/crypto-card.component";
 import { ICryptoList } from "../../types/cryptoList/ICryptoList.interface";
@@ -7,8 +6,6 @@ export const CryptoList = ({
   filteredCryptoData,
   setIsAddToCart,
   setTop,
-  setArrOfCartsCrypta,
-  arrOfCartsCrypta,
 }: ICryptoList) => {
   return (
     <div className="crptCont">
@@ -23,8 +20,6 @@ export const CryptoList = ({
             setIsAddToCart={setIsAddToCart}
             setTop={setTop}
             item={item}
-            setArrOfCartsCrypta={setArrOfCartsCrypta}
-            arrOfCartsCrypta={arrOfCartsCrypta}
           />
         );
       })}
