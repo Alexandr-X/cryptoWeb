@@ -1,5 +1,4 @@
 import React, { useEffect, useMemo, useState } from "react";
-import { useLocation } from "react-router";
 import { crptItm } from "../../types";
 import { CartsCryptoCard } from "../../components";
 import { ExitToMainMenu } from "../../components";
@@ -8,29 +7,26 @@ import { NavLink } from "react-router";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../redux";
 import { changeLogo } from "../../redux/reducers/userDataSlice";
-
+import { io } from "socket.io-client";
+import { changeArr } from "../../redux/reducers/arrOfBoughts.reducer";
 export interface IBoughtObj {
   arr: crptItm;
   quantity: number;
 }
+const socket = io("http://localhost:5000");
 
 export function ProfilePage() {
-  const pict = useSelector((state: RootState) => state.avatarStore);
+  const userData = useSelector((state: RootState) => state.userDataStore);
+  const arrOfClicked = JSON.parse(
+    useSelector((state: RootState) => state.arrOfPinCrpt)
+  );
   const dispatch = useDispatch();
-  const location = useLocation();
   const [imgUrl, setUrl] = useState<string>("");
   const [isChangePict, setIsChange] = useState<boolean>(false);
   const [isPurchase, setIsPurchase] = useState<boolean>(false);
-  const [arrOfClickedElem, setArrOfClickedElem] = useState<crptItm[]>(
-    location.state.data
-  );
   const [heightOfMCont2, setHeigh] = useState<number>(98);
-  const [arrOfBoughtEl, setArrOfBoughtEl] = useState<IBoughtObj[]>(
-    JSON.parse(localStorage.getItem("boughts") || "[]")
-  );
-
-  const [wallet, setWallet] = useState<number>(
-    parseFloat(localStorage.getItem("wallet") || "0")
+  const arrOfBoughtEl = JSON.parse(
+    useSelector((state: RootState) => state.arrOfBoughts)
   );
 
   const handleOnChangeContDataClick = () => {
@@ -38,15 +34,14 @@ export function ProfilePage() {
     else if (!isPurchase) setIsPurchase(true);
   };
   const handleOnImageClick = () => {
-    // dispatch(chabgeLogo({ logo: "link" }));
     setIsChange(!isChangePict);
-    console.log(pict);
   };
   const handleOnInpUrlClick = (e: React.ChangeEvent<HTMLInputElement>) => {
     setUrl(e.target.value);
   };
   const handleOnChangePictClick = () => {
     dispatch(changeLogo({ logo: imgUrl }));
+    socket.emit("changeLogo", { logo: imgUrl, email: userData.email });
   };
 
   useEffect(() => {
@@ -57,54 +52,32 @@ export function ProfilePage() {
       let ind = Number(
         arrT.findIndex((elem: IBoughtObj) => elem.arr.id === item.arr.id)
       );
+
       for (let j = 0; j < arrT.length; j++) {
         if (item.arr.id === arrT[j].arr.id && j !== ind) {
           item.quantity += arrT[j].quantity;
           console.log(item.quantity, "qua");
           arrT = arrT.slice(0, j).concat(arrT.slice(j + 1));
-          setArrOfBoughtEl(arrT);
-          localStorage.setItem("boughts", JSON.stringify(arrT));
+          dispatch(changeArr({ arr: JSON.stringify(arrT) }));
         }
       }
       return item;
     });
-  }, [wallet]);
-  useEffect(() => {
-    if (!localStorage.getItem("arrOfData")) {
-      localStorage.setItem("arrOfData", JSON.stringify(location.state.data));
-    } else {
-      let temp = JSON.parse(localStorage.getItem("arrOfData") || "[]");
-
-      temp.push(...location.state.data);
-
-      temp = Array.from(
-        new Set(temp.map((item: crptItm) => JSON.stringify(item)))
-      ).map((item) => JSON.parse(item as any));
-
-      setArrOfClickedElem(temp);
-
-      localStorage.setItem("arrOfData", JSON.stringify(temp));
-    }
-  }, [location.state.data]);
+  }, [userData.wallet]);
 
   useMemo(() => {
-    if (JSON.parse(localStorage.getItem("arrOfData") || "[]").length <= 9) {
+    if (arrOfClicked.length <= 9) {
       setHeigh(98);
     } else {
-      let temp = Math.floor(
-        JSON.parse(localStorage.getItem("arrOfData") || "[]").length / 9
-      );
+      let temp = Math.floor(arrOfClicked.length / 9);
 
-      if (
-        JSON.parse(localStorage.getItem("arrOfData") || "[]").length % 9 !=
-        0
-      ) {
+      if (arrOfClicked.length % 9 != 0) {
         temp++;
       }
 
       setHeigh(58 * temp);
     }
-  }, [JSON.parse(localStorage.getItem("arrOfData") || "[]").length]);
+  }, [arrOfClicked.length]);
 
   return (
     <div
@@ -116,7 +89,7 @@ export function ProfilePage() {
       <ExitToMainMenu />
       {!isPurchase ? (
         <div className="cardContInCart">
-          {arrOfClickedElem.map((item: crptItm) => {
+          {arrOfClicked.map((item: crptItm) => {
             return (
               <CartsCryptoCard
                 key={item.id}
@@ -125,11 +98,6 @@ export function ProfilePage() {
                 price_usd={item.price_usd}
                 percent_change_1h={item.percent_change_1h}
                 item={item}
-                setArrOfClickedElem={setArrOfClickedElem}
-                arrOfClickedElem={arrOfClickedElem}
-                wallet={wallet}
-                setWallet={setWallet}
-                setArrOfBoughtEl={setArrOfBoughtEl}
                 arrOfBoughtEl={arrOfBoughtEl}
               />
             );
@@ -158,12 +126,12 @@ export function ProfilePage() {
       <div className="profInfo">
         <img
           className="picture"
-          src={pict}
+          src={userData.logo}
           onClick={handleOnImageClick}
           alt=""
         />
-        <h1>Alexandr</h1>
-        <span>wallet - {wallet}$</span>
+        <h1>{userData.name}</h1>
+        <h2 className="wallet">wallet - {userData.wallet}$</h2>
         <NavLink to={"/topUpPage"} className="toPWrap">
           <div className="balance">top up</div>
         </NavLink>
