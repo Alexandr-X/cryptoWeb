@@ -46,7 +46,6 @@ export function ProfilePage() {
 
   useEffect(() => {
     let arrT = arrOfBoughtEl;
-    console.log("boght", arrOfBoughtEl);
 
     arrT.map((item: IBoughtObj) => {
       let ind = Number(
@@ -56,11 +55,11 @@ export function ProfilePage() {
       for (let j = 0; j < arrT.length; j++) {
         if (item.arr.id === arrT[j].arr.id && j !== ind) {
           item.quantity += arrT[j].quantity;
-          console.log(item.quantity, "qua");
           arrT = arrT.slice(0, j).concat(arrT.slice(j + 1));
           dispatch(changeArr({ arr: JSON.stringify(arrT) }));
         }
       }
+
       return item;
     });
   }, [userData.wallet]);

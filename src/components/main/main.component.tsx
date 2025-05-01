@@ -20,7 +20,7 @@ export const Main = ({
   isSortWindow,
 }: ISearchValue) => {
   const [limit, setlimitVal] = useState<number>(6);
-  const { data: cryptoData, isError, isLoading } = useCryptoData(0, limit);
+  const { data: cryptoData, isError, isLoading } = useCryptoData(limit);
   const [height, setHeight] = useState<number>(0);
   const [top, setTop] = useState<number>(0);
   const [left, setLeft] = useState<number>(-20);
@@ -28,10 +28,14 @@ export const Main = ({
   const [toCost, setToCost] = useState<string>("");
   const [isFindBtnClick, setIsFindBtnClick] = useState<boolean>(false);
   const [findBtnText, setFindBtnText] = useState<string>("find");
+  const { data: serchCrptData } = useCryptoData(200);
+  const [right, setRight] = useState<number>(-3);
 
-  const handleOnButtonClick = () => {
+  const handleOnAddNew6CrptButtonClick = () => {
     setlimitVal(limit + 6);
-    setHeight(height + 80);
+  };
+  const handleOnBack6WordsBtnClick = () => {
+    setlimitVal(6);
   };
 
   const handleOnInpCostChange = (
@@ -42,33 +46,58 @@ export const Main = ({
   };
 
   const handleOnFindBtnClick = () => {
-    if (fromCost == "" && toCost == "" && !isFindBtnClick) console.log("");
-    else setIsFindBtnClick(!isFindBtnClick);
-
+    if (!isFindBtnClick) {
+      if (
+        (fromCost == "" && toCost != "") ||
+        (fromCost != "" && toCost == "") ||
+        (fromCost != "" && toCost != "")
+      ) {
+        setIsFindBtnClick(true);
+      } else {
+        setIsFindBtnClick(false);
+      }
+    } else {
+      setIsFindBtnClick(false);
+    }
     setFindBtnText(isFindBtnClick ? "find" : "back");
-    console.log(findBtnText);
+  };
+  const handleOnToTopBtnClick = () => {
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth",
+    });
   };
 
   const filteredCryptoData = useMemo(() => {
-    return !isFindBtnClick
-      ? isSearch
-        ? cryptoData?.data.data.filter(
-            (item: crptItm) => item.name.includes(searchText) //|| item.nameid.includes(searchText)
-          )
-        : cryptoData?.data.data
-      : cryptoData?.data.data.filter(
-          (item: crptItm) =>
-            Number(item.price_usd) >= Number(fromCost) &&
-            Number(item.price_usd) <= Number(toCost)
-        );
+    return isSearch
+      ? serchCrptData?.data.data.filter((item: crptItm) =>
+          item.name.toLowerCase().includes(searchText.toLowerCase())
+        )
+      : isFindBtnClick
+      ? cryptoData?.data.data.filter((item: crptItm) => {
+          if (fromCost !== "" && toCost !== "") {
+            return (
+              Number(item.price_usd) >= Number(fromCost) &&
+              Number(item.price_usd) <= Number(toCost)
+            );
+          } else if (fromCost == "" && toCost !== "") {
+            return Number(item.price_usd) <= Number(toCost);
+          } else if (fromCost !== "" && toCost == "") {
+            return Number(item.price_usd) >= Number(fromCost);
+          }
+        })
+      : cryptoData?.data.data;
   }, [cryptoData, limit, searchText, isFindBtnClick]);
 
   useEffect(() => {
     if (!filteredCryptoData) {
       setHeight(0);
-    } else if (filteredCryptoData.length < 6) {
+      setRight(-3);
+    } else if (filteredCryptoData.length <= 6) {
       setHeight(80);
+      setRight(-3);
     } else {
+      setRight(1);
       setHeight((parseInt(filteredCryptoData.length) / 6) * 80);
       if (parseInt(filteredCryptoData.length) % 6 !== 0) {
         setHeight(height => height + 80);
@@ -79,12 +108,18 @@ export const Main = ({
   useEffect(() => {
     setLeft(isSortWindow ? 1 : -20);
   }, [isSortWindow]);
+
   if (isError) {
     return <h1>Error</h1>;
   }
 
   if (isLoading) {
-    return <h1>Загрузка...</h1>;
+    return (
+      <img
+        src="https://upload.wikimedia.org/wikipedia/commons/b/b1/Loading_icon.gif"
+        alt=""
+      />
+    );
   }
 
   return (
@@ -99,10 +134,16 @@ export const Main = ({
         setIsAddToCart={setIsAddToCart}
         setTop={setTop}
       />
+
       {!isSearch ? (
-        <div className="add6words" onClick={handleOnButtonClick}>
-          {" "}
-          add six more words
+        <div className="changeQuntityBtnsCont">
+          <div className="add6words" onClick={handleOnAddNew6CrptButtonClick}>
+            {" "}
+            add six more crpta
+          </div>
+          <div className="add6words" onClick={handleOnBack6WordsBtnClick}>
+            back only 6 crpta
+          </div>
         </div>
       ) : (
         <h2>This is what we find</h2>
@@ -139,6 +180,17 @@ export const Main = ({
           {findBtnText}
           <div className="aft"></div>
         </div>
+      </div>
+
+      <div
+        className="goOnTop"
+        onClick={handleOnToTopBtnClick}
+        style={{ right: `${right}rem` }}
+      >
+        <img
+          src="https://img.freepik.com/premium-vector/vector-design-up-chevron-icon-style_1134108-88901.jpg?ga=GA1.1.539172598.1740419676&semt=ais_hybrid&w=740"
+          alt=""
+        />
       </div>
     </div>
   );

@@ -1,9 +1,9 @@
 import { useQuery } from "@tanstack/react-query";
 import { api } from "../../config";
 
-export const useCryptoData = (start: number, limit: number) => {
+export const useCryptoData = (limit: number) => {
   return useQuery({
     queryKey: ["crypta", limit],
-    queryFn: () => api(start, limit),
+    queryFn: () => api(limit),
   });
 };
