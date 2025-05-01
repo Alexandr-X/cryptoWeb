@@ -129,10 +129,17 @@ export function ProfilePage() {
           onClick={handleOnImageClick}
           alt=""
         />
-        <h1>{userData.name}</h1>
-        <h2 className="wallet">wallet - {userData.wallet}$</h2>
+        <div className="infoCont">
+          {" "}
+          <p>{userData.name}</p>
+          <h2 className="wallet">wallet - {userData.wallet}$</h2>
+        </div>
+
         <NavLink to={"/topUpPage"} className="toPWrap">
           <div className="balance">top up</div>
+        </NavLink>
+        <NavLink to={"/reg"} className="toPWrap">
+          <div className="balance">exit</div>
         </NavLink>
         {!isPurchase ? (
           <div onClick={handleOnChangeContDataClick} className="balance purch">

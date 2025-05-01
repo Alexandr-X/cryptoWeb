@@ -23,12 +23,24 @@
   padding: 1.5rem;
   right: 3rem;
 }
+.infoCont {
+  display: flex;
+  width: 60%;
+  align-items: center;
+  justify-content: space-evenly;
+}
+.infoCont p {
+  width: 50%;
+  font-size: 30px;
+  color: rgb(255, 0, 0);
+}
+.wallet {
+  width: 50%;
+  color: blueviolet;
+}
 .picture {
   width: 7rem;
   height: 7rem;
-}
-.wallet {
-  width: 150px;
 }
 .balance {
   font-weight: bolder;

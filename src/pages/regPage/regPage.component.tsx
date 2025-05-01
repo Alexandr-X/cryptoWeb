@@ -59,7 +59,9 @@ export const RegPage = () => {
             dispatch(changeLogo({ logo: inform.logo }));
             dispatch(changeWallet({ wallet: inform.money }));
             dispatch(changeEmail({ email }));
-            dispatch(changeName({ name }));
+            isSignIn
+              ? dispatch(changeName({ name: inform.name }))
+              : dispatch(changeName({ name }));
             dispatch(changeArr({ arr: inform.arr }));
             dispatch(changeArrOfPinCrpt({ arr: inform.arrOfPin }));
           });
