@@ -1,10 +1,11 @@
-import React from "react";
+import React, { useState } from "react";
 import { crptItm } from "../../types";
 import "./cryptaEl.style.css";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../redux";
 import { changeArrOfPinCrpt } from "../../redux/reducers/arrOfPinCrpt.reducer";
 import { io } from "socket.io-client";
+import { useCryptoDescrp } from "../../features/useCryptoDescrp/useCryptoDescrp";
 
 const socket = io("http://localhost:5000");
 interface Ia extends crptItm {
@@ -25,7 +26,9 @@ export const CryptoCard = ({
   const arrOfCartsCrypta = JSON.parse(
     useSelector((state: RootState) => state.arrOfPinCrpt)
   );
+  const [crptIdName, setCrptIdName] = useState<string>("");
   const email = useSelector((state: RootState) => state.userDataStore.email);
+  const { data: descrData, isLoading, isError } = useCryptoDescrp(crptIdName);
   const dispatch = useDispatch();
 
   const handleOnCardClick = (event: React.MouseEvent) => {
@@ -62,12 +65,28 @@ export const CryptoCard = ({
       );
     }
   };
+  const handleOnRightBtnCryptaCardClick = (event: React.MouseEvent) => {
+    event.preventDefault();
+    const workingName: string[] = name.toLowerCase().split("");
+    const reusltName = workingName
+      .map((item: string) => {
+        if (item != " ") {
+          return item;
+        } else {
+          return "-";
+        }
+      })
+      .join("");
+    setCrptIdName(reusltName);
+    console.log(reusltName, "name", descrData);
+  };
 
   return (
     <div
       key={id}
       className="cryptoCont"
       onClick={event => handleOnCardClick(event)}
+      onContextMenu={handleOnRightBtnCryptaCardClick}
     >
       <h2 className="cryptoName">{name}</h2>
       <p className="supply">change per hour {percent_change_1h}%</p>

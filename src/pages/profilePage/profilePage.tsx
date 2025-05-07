@@ -43,6 +43,9 @@ export function ProfilePage() {
     dispatch(changeLogo({ logo: imgUrl }));
     socket.emit("changeLogo", { logo: imgUrl, email: userData.email });
   };
+  const hadleOnExitBtnClick = () => {
+    localStorage.removeItem("token");
+  };
 
   useEffect(() => {
     let arrT = arrOfBoughtEl;
@@ -138,7 +141,7 @@ export function ProfilePage() {
         <NavLink to={"/topUpPage"} className="toPWrap">
           <div className="balance">top up</div>
         </NavLink>
-        <NavLink to={"/reg"} className="toPWrap">
+        <NavLink to={"/reg"} className="toPWrap" onClick={hadleOnExitBtnClick}>
           <div className="balance">exit</div>
         </NavLink>
         {!isPurchase ? (

@@ -139,7 +139,7 @@ export const Main = ({
         <div className="changeQuntityBtnsCont">
           <div className="add6words" onClick={handleOnAddNew6CrptButtonClick}>
             {" "}
-            add six more crpta
+            add 6 more crpta
           </div>
           <div className="add6words" onClick={handleOnBack6WordsBtnClick}>
             back only 6 crpta
