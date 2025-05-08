@@ -1,8 +1,8 @@
 import axios from "axios";
 
-export const api = async (start: number, limit: number) => {
+export const api = async (limit: number) => {
   const response = await axios.get(
-    `https://api.coinlore.net/api/tickers/?start=${start}&limit=${limit}`
+    `https://api.coinlore.net/api/tickers/?start=0&limit=${limit}`
   );
   return response;
 };

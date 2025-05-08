@@ -6,7 +6,6 @@ body {
 }
 #root {
   display: flex;
-  align-items: center;
   flex-wrap: wrap;
   justify-content: center;
   width: 100%;
@@ -16,4 +15,5 @@ body {
   box-sizing: border-box;
   padding: 0;
   margin: 0;
+  transition: all 0.5s;
 }

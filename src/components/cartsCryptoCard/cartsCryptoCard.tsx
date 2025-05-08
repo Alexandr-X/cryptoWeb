@@ -39,7 +39,7 @@ export const CartsCryptoCard = ({
 
       dispatch(changeArrOfPinCrpt({ arr: JSON.stringify(newArr) }));
       socket.emit("udpArrOfPinCrpt", {
-        email: userData.email,
+        email: userData?.email,
         arr: JSON.stringify(newArr),
       });
       setIsClicked(false);

@@ -8,10 +8,19 @@
   height: 100%;
 }
 .container {
+  margin-top: 5rem;
   width: 50%;
   display: flex;
   flex-direction: column;
   align-items: center;
+}
+.changeQuntityBtnsCont {
+  display: flex;
+  justify-content: space-evenly;
+  width: 30%;
+  position: fixed;
+  bottom: 1rem;
+  z-index: 12;
 }
 .add6words {
   width: 200px;
@@ -48,7 +57,8 @@
 }
 .sortCont {
   transition: all 0.5s;
-  position: absolute;
+  position: fixed;
+  top: 10rem;
   display: flex;
   flex-wrap: wrap;
   flex-direction: column;
@@ -93,4 +103,19 @@
   padding-left: 12px;
   left: 0;
   visibility: visible;
+}
+.goOnTop,
+.goOnTop img {
+  width: 40px;
+  height: 40px;
+}
+.goOnTop {
+  position: fixed;
+  bottom: 1rem;
+  transform: rotate(180deg);
+}
+.goOnTop img:hover {
+  cursor: pointer;
+  transform: scale(1.2);
+  transform: rotate(180deg);
 }

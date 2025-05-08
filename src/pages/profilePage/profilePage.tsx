@@ -43,10 +43,12 @@ export function ProfilePage() {
     dispatch(changeLogo({ logo: imgUrl }));
     socket.emit("changeLogo", { logo: imgUrl, email: userData.email });
   };
+  const hadleOnExitBtnClick = () => {
+    localStorage.removeItem("token");
+  };
 
   useEffect(() => {
     let arrT = arrOfBoughtEl;
-    console.log("boght", arrOfBoughtEl);
 
     arrT.map((item: IBoughtObj) => {
       let ind = Number(
@@ -56,11 +58,11 @@ export function ProfilePage() {
       for (let j = 0; j < arrT.length; j++) {
         if (item.arr.id === arrT[j].arr.id && j !== ind) {
           item.quantity += arrT[j].quantity;
-          console.log(item.quantity, "qua");
           arrT = arrT.slice(0, j).concat(arrT.slice(j + 1));
           dispatch(changeArr({ arr: JSON.stringify(arrT) }));
         }
       }
+
       return item;
     });
   }, [userData.wallet]);
@@ -130,10 +132,17 @@ export function ProfilePage() {
           onClick={handleOnImageClick}
           alt=""
         />
-        <h1>{userData.name}</h1>
-        <h2 className="wallet">wallet - {userData.wallet}$</h2>
+        <div className="infoCont">
+          {" "}
+          <p>{userData.name}</p>
+          <h2 className="wallet">wallet - {userData.wallet}$</h2>
+        </div>
+
         <NavLink to={"/topUpPage"} className="toPWrap">
           <div className="balance">top up</div>
+        </NavLink>
+        <NavLink to={"/reg"} className="toPWrap" onClick={hadleOnExitBtnClick}>
+          <div className="balance">exit</div>
         </NavLink>
         {!isPurchase ? (
           <div onClick={handleOnChangeContDataClick} className="balance purch">
