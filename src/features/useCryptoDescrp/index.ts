@@ -1,2 +1,1 @@
-export * from "./useCryptoData";
 export * from "./useCryptoDescrp";
