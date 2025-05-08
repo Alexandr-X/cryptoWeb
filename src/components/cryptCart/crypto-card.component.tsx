@@ -7,11 +7,13 @@ import { changeArrOfPinCrpt } from "../../redux/reducers/arrOfPinCrpt.reducer";
 import { io } from "socket.io-client";
 import { useCryptoDescrp } from "../../features/useCryptoDescrp/useCryptoDescrp";
 
+
 const socket = io("http://localhost:5000");
 interface Ia extends crptItm {
   item: crptItm;
   setIsAddToCart: (value: boolean) => void;
   setTop: (value: number) => void;
+  setIsRightBtnOnCrptCardClick:(value:number)=>void
 }
 
 export const CryptoCard = ({
@@ -22,6 +24,7 @@ export const CryptoCard = ({
   setIsAddToCart,
   setTop,
   item,
+  setIsRightBtnOnCrptCardClick
 }: Ia) => {
   const arrOfCartsCrypta = JSON.parse(
     useSelector((state: RootState) => state.arrOfPinCrpt)
@@ -67,6 +70,7 @@ export const CryptoCard = ({
   };
   const handleOnRightBtnCryptaCardClick = (event: React.MouseEvent) => {
     event.preventDefault();
+    setIsRightBtnOnCrptCardClick(10);
     const workingName: string[] = name.toLowerCase().split("");
     const reusltName = workingName
       .map((item: string) => {
