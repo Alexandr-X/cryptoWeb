@@ -6,6 +6,7 @@ export const CryptoList = ({
   filteredCryptoData,
   setIsAddToCart,
   setTop,
+  setIsRightBtnOnCrptCardClick
 }: ICryptoList) => {
   return (
     <div className="crptCont">
@@ -20,6 +21,7 @@ export const CryptoList = ({
             setIsAddToCart={setIsAddToCart}
             setTop={setTop}
             item={item}
+            setIsRightBtnOnCrptCardClick={setIsRightBtnOnCrptCardClick}
           />
         );
       })}

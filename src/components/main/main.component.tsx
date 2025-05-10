@@ -3,6 +3,7 @@ import { useCryptoData } from "../../features";
 import { crptItm } from "../../types";
 import "./main.style.css";
 import { CryptoList } from "../cryptoList";
+import { CryptoDescrCard } from "../cryptoDescrCard";
 
 interface ISearchValue {
   isSearch: boolean;
@@ -30,6 +31,7 @@ export const Main = ({
   const [findBtnText, setFindBtnText] = useState<string>("find");
   const { data: serchCrptData } = useCryptoData(200);
   const [right, setRight] = useState<number>(-3);
+  const [isRightBtnOnCrptCardClick, setIsRightBtnOnCrptCardClick] = useState<number>(-150)
 
   const handleOnAddNew6CrptButtonClick = () => {
     setlimitVal(limit + 6);
@@ -133,6 +135,7 @@ export const Main = ({
         filteredCryptoData={filteredCryptoData}
         setIsAddToCart={setIsAddToCart}
         setTop={setTop}
+        setIsRightBtnOnCrptCardClick={setIsRightBtnOnCrptCardClick}
       />
 
       {!isSearch ? (
@@ -156,6 +159,7 @@ export const Main = ({
       ) : (
         ""
       )}
+      {isRightBtnOnCrptCardClick?<CryptoDescrCard setIsRightBtnOnCrptCardClick={setIsRightBtnOnCrptCardClick} isRightBtnOnCrptCardClick={isRightBtnOnCrptCardClick}/>:""} 
 
       <div className="sortCont" style={{ left: `${left}rem` }}>
         <div className="sortInpCont">
@@ -192,6 +196,7 @@ export const Main = ({
           alt=""
         />
       </div>
+
     </div>
   );
 };
