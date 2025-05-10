@@ -5,15 +5,15 @@ import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../redux";
 import { changeArrOfPinCrpt } from "../../redux/reducers/arrOfPinCrpt.reducer";
 import { io } from "socket.io-client";
-import { useCryptoDescrp } from "../../features/useCryptoDescrp/useCryptoDescrp";
-
+import { descrpUpd } from "../../redux/reducers/cryptaDescr";
+// import { useCryptoDescrp } from "../../features/useCryptoDescrp/useCryptoDescrp";
 
 const socket = io("http://localhost:5000");
 interface Ia extends crptItm {
   item: crptItm;
   setIsAddToCart: (value: boolean) => void;
   setTop: (value: number) => void;
-  setIsRightBtnOnCrptCardClick:(value:number)=>void
+  setIsRightBtnOnCrptCardClick: (value: number) => void;
 }
 
 export const CryptoCard = ({
@@ -24,14 +24,14 @@ export const CryptoCard = ({
   setIsAddToCart,
   setTop,
   item,
-  setIsRightBtnOnCrptCardClick
+  setIsRightBtnOnCrptCardClick,
 }: Ia) => {
   const arrOfCartsCrypta = JSON.parse(
     useSelector((state: RootState) => state.arrOfPinCrpt)
   );
-  const [crptIdName, setCrptIdName] = useState<string>("");
+  // const [idOfCrpt, setIdOfCrpt] = useState<string>("");
+  // const { data: descrData, isLoading, isError } = useCryptoDescrp(idOfCrpt);
   const email = useSelector((state: RootState) => state.userDataStore.email);
-  const { data: descrData, isLoading, isError } = useCryptoDescrp(crptIdName);
   const dispatch = useDispatch();
 
   const handleOnCardClick = (event: React.MouseEvent) => {
@@ -70,26 +70,35 @@ export const CryptoCard = ({
   };
   const handleOnRightBtnCryptaCardClick = (event: React.MouseEvent) => {
     event.preventDefault();
+    socket.emit("getDescrAbout", name);
+    socket.on("getCrptId", async (id) => {
+      if (id.isSuccsesful) {
+        const descr = await fetch(
+          `https://api.coinpaprika.com/v1/coins/${id.data}`
+        ).then((data) => data.json());
+        console.log(descr);
+        dispatch(
+          descrpUpd({
+            name: descr.name,
+            descr: descr.description,
+            logo: descr.logo,
+            symbol: descr.symbol,
+            first_data_at: descr.first_data_at,
+          })
+        );
+        //setIdOfCrpt(id.data);
+      } else {
+        console.log("error");
+      }
+    });
     setIsRightBtnOnCrptCardClick(10);
-    const workingName: string[] = name.toLowerCase().split("");
-    const reusltName = workingName
-      .map((item: string) => {
-        if (item != " ") {
-          return item;
-        } else {
-          return "-";
-        }
-      })
-      .join("");
-    setCrptIdName(reusltName);
-    console.log(reusltName, "name", descrData);
   };
 
   return (
     <div
       key={id}
       className="cryptoCont"
-      onClick={event => handleOnCardClick(event)}
+      onClick={(event) => handleOnCardClick(event)}
       onContextMenu={handleOnRightBtnCryptaCardClick}
     >
       <h2 className="cryptoName">{name}</h2>
