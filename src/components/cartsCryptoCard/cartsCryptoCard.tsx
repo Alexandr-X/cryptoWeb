@@ -11,7 +11,6 @@ import { changeArrOfPinCrpt } from "../../redux/reducers/arrOfPinCrpt.reducer";
 
 const socket = io("http://localhost:5000");
 interface ICartsCryptoCard extends crptItm {
-  item: crptItm;
   arrOfBoughtEl: IBoughtObj[];
 }
 
@@ -20,7 +19,6 @@ export const CartsCryptoCard = ({
   name,
   price_usd,
   percent_change_1h,
-  item,
   arrOfBoughtEl,
 }: ICartsCryptoCard) => {
   const dispatch = useDispatch();
@@ -33,9 +31,7 @@ export const CartsCryptoCard = ({
 
   useEffect(() => {
     if (isClicked) {
-      const newArr = arrOfClickedElem.filter(
-        (elem: crptItm) => elem.id !== item.id
-      );
+      const newArr = arrOfClickedElem.filter((elem: crptItm) => elem.id !== id);
 
       dispatch(changeArrOfPinCrpt({ arr: JSON.stringify(newArr) }));
       socket.emit("udpArrOfPinCrpt", {
@@ -86,7 +82,7 @@ export const CartsCryptoCard = ({
         ...arrOfBoughtEl,
         { arr: workingElem[0], quantity: Number(parseFloat(quantity)) },
       ];
-      socket.emit("updArrofBoughts", { email: userData.email, arr: newAr });
+      console.log("nArr", newAr);
       dispatch(changeArr({ arr: JSON.stringify(newAr) }));
     } else if (quantity != "")
       alert("you have no many:( pls top up your card or choose less crypto.");

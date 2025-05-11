@@ -28,10 +28,24 @@ export function ProfilePage() {
   const arrOfBoughtEl = JSON.parse(
     useSelector((state: RootState) => state.arrOfBoughts)
   );
+  const [finalyPrice, setFinalyPrice] = useState<number>(0);
 
   const handleOnChangeContDataClick = () => {
-    if (isPurchase) setIsPurchase(false);
-    else if (!isPurchase) setIsPurchase(true);
+    if (isPurchase) {
+      setIsPurchase(false);
+      setFinalyPrice(0);
+    } else if (!isPurchase) {
+      setIsPurchase(true);
+
+      let priceOfBghts = 0;
+      arrOfBoughtEl.map(
+        (item: IBoughtObj) =>
+          (priceOfBghts +=
+            finalyPrice + item.quantity * Number(item.arr.price_usd))
+      );
+      setFinalyPrice(Number(priceOfBghts.toFixed(3)));
+      console.log(Number(priceOfBghts.toFixed(3)));
+    }
   };
   const handleOnImageClick = () => {
     setIsChange(!isChangePict);
@@ -65,6 +79,8 @@ export function ProfilePage() {
 
       return item;
     });
+
+    socket.emit("updArrofBoughts", { email: userData.email, arr: arrT });
   }, [userData.wallet]);
 
   useMemo(() => {
@@ -99,7 +115,6 @@ export function ProfilePage() {
                 name={item.name}
                 price_usd={item.price_usd}
                 percent_change_1h={item.percent_change_1h}
-                item={item}
                 arrOfBoughtEl={arrOfBoughtEl}
               />
             );
@@ -108,17 +123,20 @@ export function ProfilePage() {
       ) : (
         <div className="bugthsCont">
           {arrOfBoughtEl.length !== 0 ? (
-            arrOfBoughtEl.map((item: IBoughtObj) => {
-              return (
-                <div className="boughtsElem" key={item.arr.id}>
-                  <h2>{item.arr.name}</h2>
-                  <div className="quntCont">
-                    quantity that you bought -{" "}
-                    <p className="qunt">{item.quantity}</p>
+            <div className="boughtsCards">
+              {arrOfBoughtEl.map((item: IBoughtObj) => {
+                return (
+                  <div className="boughtsElem" key={item.arr.id}>
+                    <h2>{item.arr.name}</h2>
+                    <div className="quntCont">
+                      quantity that you bought -{" "}
+                      <p className="qunt">{item.quantity}</p>
+                    </div>
                   </div>
-                </div>
-              );
-            })
+                );
+              })}
+              <div className="finalyPrice">totl spend: {finalyPrice}$</div>
+            </div>
           ) : (
             <h1>You bought nothing yet</h1>
           )}
