@@ -44,7 +44,6 @@ export function ProfilePage() {
             finalyPrice + item.quantity * Number(item.arr.price_usd))
       );
       setFinalyPrice(Number(priceOfBghts.toFixed(3)));
-      console.log(Number(priceOfBghts.toFixed(3)));
     }
   };
   const handleOnImageClick = () => {

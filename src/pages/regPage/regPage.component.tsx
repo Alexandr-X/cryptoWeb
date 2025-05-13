@@ -33,7 +33,6 @@ export const RegPage = () => {
     if (answer) {
       socket.emit("getAddInform", localStorage.getItem("email") || email);
       socket.on("giveAddInform", (inform) => {
-        console.log(JSON.stringify(inform.arr), "bghts");
         dispatch(changeLogo({ logo: inform.logo }));
         dispatch(changeWallet({ wallet: inform.money }));
         dispatch(changeEmail({ email }));
@@ -44,7 +43,7 @@ export const RegPage = () => {
         dispatch(changeArrOfPinCrpt({ arr: inform.arrOfPin }));
       });
       navigate("/");
-    } else console.log("answer = ", answer);
+    }
   });
 
   const handleOnSignBtnClick = () => {
@@ -108,7 +107,6 @@ export const RegPage = () => {
           });
           socket.emit("createToken", email);
           socket.on("getToken", (token) => {
-            console.log("asdiuasgdfiuygasdiyfugasdf");
             localStorage.setItem("token", token);
           });
 

@@ -58,7 +58,6 @@ export const CryptoCard = ({
         )
       ).map((item: string) => JSON.parse(item));
 
-      console.log("newArr", newArrOfClickedCard);
       socket.emit("udpArrOfPinCrpt", {
         email: email,
         arr: newArrOfClickedCard,
@@ -76,14 +75,13 @@ export const CryptoCard = ({
         const descr = await fetch(
           `https://api.coinpaprika.com/v1/coins/${id.data}`
         ).then((data) => data.json());
-        console.log(descr);
         dispatch(
           descrpUpd({
             name: descr.name,
             descr: descr.description,
             logo: descr.logo,
             symbol: descr.symbol,
-            first_data_at: descr.first_data_at,
+            first_data_at: descr.started_at,
           })
         );
         //setIdOfCrpt(id.data);
