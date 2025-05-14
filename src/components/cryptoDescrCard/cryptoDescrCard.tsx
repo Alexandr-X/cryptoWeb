@@ -2,8 +2,9 @@ import { useDispatch, useSelector } from "react-redux";
 import "./cryptoDescrCard.css";
 import { RootState } from "../../redux";
 import { descrpUpd } from "../../redux/reducers/cryptaDescr";
-import { CryptoGraph } from "../crptoGraph";
+import { useEffect, useMemo, useState } from "react";
 import { useCryptoGraphApi } from "../../features";
+import { CryptoGraph } from "../crptoGraph";
 
 interface ICryptoDescrCard {
   setIsRightBtnOnCrptCardClick: (value: number) => void;
@@ -15,39 +16,22 @@ export const CryptoDescrCard = ({
   isRightBtnOnCrptCardClick,
 }: ICryptoDescrCard) => {
   const descrOfCrpt = useSelector((state: RootState) => state.crptDescStore);
-  const crptPrettName = descrOfCrpt.name
-    .toLowerCase()
-    .split("")
-    .map((item: string) => {
-      if (item == " ") {
-        return "-";
-      } else if (item !== "") {
-        return item;
-      }
-    })
-    .join("");
-  const { data: graphData } =
-    crptPrettName != ""
-      ? useCryptoGraphApi(crptPrettName)
-      : { data: [{ price: [] }] };
+  const crptname = useMemo(() => {
+    return descrOfCrpt.name
+      .toLowerCase()
+      .split("")
+      .map((item: string) => {
+        if (item == " ") {
+          return "-";
+        } else if (item !== "") {
+          return item;
+        }
+      })
+      .join("");
+  }, [descrOfCrpt.name]);
 
-  //       const { data: graphData } = useMemo(()=>{
-
-  // const crptPrettName = descrOfCrpt.name
-  //   .toLowerCase()
-  //   .split("")
-  //   .map((item: string) => {
-  //     if (item == " ") {
-  //       return "-";
-  //     } else if (item !== "") {
-  //       return item;
-  //     }
-  //   })
-  //   .join("");
-  //    crptPrettName != ""
-  //     ? useCryptoGraphApi(crptPrettName)
-  //     : { data: [{ price: [] }] };
-  // },[descrOfCrpt.name])
+  const { data: graphData } = useCryptoGraphApi(crptname);
+  console.log(graphData);
 
   const dispatch = useDispatch();
   const handleOnCryptoDescr = () => {
@@ -87,7 +71,8 @@ export const CryptoDescrCard = ({
             this cryptocurrency was created in{" "}
             {new Date(descrOfCrpt.first_data_at).toLocaleDateString("ru-RU")}
           </p>
-          <CryptoGraph arr={graphData?.data.prices} />
+
+          {/* <CryptoGraph arr={graphData?.data.prices} /> */}
         </div>
       ) : (
         <img
