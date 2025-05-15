@@ -6,3 +6,4 @@ export * from "./cryptoList";
 export * from "./cartsCryptoCard";
 export * from "./exitTomainMenu";
 export * from "./cryptoDescrCard";
+export * from "./crptoGraph";

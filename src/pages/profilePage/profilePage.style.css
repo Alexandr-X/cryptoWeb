@@ -68,11 +68,7 @@ a {
   margin-top: 5rem;
   margin-right: 26%;
   border: 2px solid black;
-  display: flex;
-  flex-wrap: wrap;
   width: 30%;
-  justify-content: space-evenly;
-  align-items: center;
   overflow-y: auto;
   height: 80%;
 }
@@ -122,4 +118,18 @@ a {
 }
 .inpPictCont input {
   width: 300px;
+}
+.boughtsCards {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  justify-content: space-evenly;
+}
+.finalyPrice {
+  width: 70px;
+  position: fixed;
+  bottom: 12rem;
+  left: 51%;
+  color: rgb(145, 1, 255);
 }

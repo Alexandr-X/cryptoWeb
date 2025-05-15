@@ -16,7 +16,7 @@ export const TopUpPage = () => {
 
   const handleOnConfirmBtnclick = () => {
     if (Number(money) < 0) {
-      console.log("asde");
+      console.log("");
     } else if (money != "") {
       socket.emit("changeMoney", {
         email: userData.email,
