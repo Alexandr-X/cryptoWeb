@@ -29,10 +29,10 @@ export const RegPage = () => {
   const dispatch = useDispatch();
 
   socket.emit("isWorkToken", localStorage.getItem("token") || "");
-  socket.on("getTokenAnser", answer => {
+  socket.on("getTokenAnser", (answer) => {
     if (answer) {
       socket.emit("getAddInform", localStorage.getItem("email") || email);
-      socket.on("giveAddInform", inform => {
+      socket.on("giveAddInform", (inform) => {
         dispatch(changeLogo({ logo: inform.logo }));
         dispatch(changeWallet({ wallet: inform.money }));
         dispatch(changeEmail({ email }));
@@ -43,7 +43,7 @@ export const RegPage = () => {
         dispatch(changeArrOfPinCrpt({ arr: inform.arrOfPin }));
       });
       navigate("/");
-    } else console.log("answer = ", answer);
+    }
   });
 
   const handleOnSignBtnClick = () => {
@@ -91,11 +91,11 @@ export const RegPage = () => {
       } else if (isSignIn) {
         socket.emit("isCorrectLogin", { email: email, password: password });
       }
-      socket.on("isCorrectReg", async data => {
+      socket.on("isCorrectReg", async (data) => {
         if (data) {
           localStorage.setItem("email", email);
           socket.emit("getAddInform", email);
-          socket.on("giveAddInform", inform => {
+          socket.on("giveAddInform", (inform) => {
             dispatch(changeLogo({ logo: inform.logo }));
             dispatch(changeWallet({ wallet: inform.money }));
             dispatch(changeEmail({ email }));
@@ -106,8 +106,7 @@ export const RegPage = () => {
             dispatch(changeArrOfPinCrpt({ arr: inform.arrOfPin }));
           });
           socket.emit("createToken", email);
-          socket.on("getToken", token => {
-            console.log("asdiuasgdfiuygasdiyfugasdf");
+          socket.on("getToken", (token) => {
             localStorage.setItem("token", token);
           });
 
