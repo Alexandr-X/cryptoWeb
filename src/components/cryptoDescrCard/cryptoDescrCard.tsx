@@ -61,10 +61,14 @@ export const CryptoDescrCard = ({
           <img src={descrOfCrpt.logo} alt="crptPict" />
           <div className="descr">
             {" "}
-            <h2>
+            <h1>
               {descrOfCrpt.name}({descrOfCrpt.symbol})
-            </h2>
-            <h1 className="descrOfCrpt">{descrOfCrpt.descr}</h1>
+            </h1>
+            <p className="descrOfCrpt">
+              {descrOfCrpt.descr
+                ? descrOfCrpt.descr
+                : "we havent got describing about this cryptocurrency  sorry about it("}
+            </p>
           </div>
           <h2 className="dateofcreat">
             this cryptocurrency was created -{" "}
@@ -74,7 +78,7 @@ export const CryptoDescrCard = ({
           {graphData?.data.prices ? (
             <CryptoGraph arr={graphData?.data.prices} />
           ) : (
-            <h1>error</h1>
+            <h1>We havent got data about this crptacurrency</h1>
           )}
         </div>
       ) : (
