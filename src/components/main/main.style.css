@@ -119,3 +119,8 @@
   transform: scale(1.2);
   transform: rotate(180deg);
 }
+.sortFromCont {
+  padding: 5px;
+  display: flex;
+  align-items: center;
+}

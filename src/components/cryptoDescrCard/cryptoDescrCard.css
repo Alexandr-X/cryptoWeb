@@ -1,6 +1,6 @@
 .descrCont {
   width: 80%;
-  height: 80%;
+  height: 85%;
   border: 3px solid black;
   position: fixed;
   border-radius: 20px;
@@ -35,4 +35,13 @@
   height: 200px;
   margin-left: 40%;
   margin-top: 10%;
+}
+.dateofcreat {
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+  color: black;
+}
+.descrOfCrpt {
+  overflow: auto;
+  height: 280px;
 }

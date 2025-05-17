@@ -2,7 +2,7 @@ import { useDispatch, useSelector } from "react-redux";
 import "./cryptoDescrCard.css";
 import { RootState } from "../../redux";
 import { descrpUpd } from "../../redux/reducers/cryptaDescr";
-import { useEffect, useMemo, useState } from "react";
+import { useMemo } from "react";
 import { useCryptoGraphApi } from "../../features";
 import { CryptoGraph } from "../crptoGraph";
 
@@ -31,7 +31,6 @@ export const CryptoDescrCard = ({
   }, [descrOfCrpt.name]);
 
   const { data: graphData } = useCryptoGraphApi(crptname);
-  console.log(graphData);
 
   const dispatch = useDispatch();
   const handleOnCryptoDescr = () => {
@@ -65,14 +64,18 @@ export const CryptoDescrCard = ({
             <h2>
               {descrOfCrpt.name}({descrOfCrpt.symbol})
             </h2>
-            <h1>{descrOfCrpt.descr}</h1>
+            <h1 className="descrOfCrpt">{descrOfCrpt.descr}</h1>
           </div>
-          <p>
-            this cryptocurrency was created in{" "}
+          <h2 className="dateofcreat">
+            this cryptocurrency was created -{" "}
             {new Date(descrOfCrpt.first_data_at).toLocaleDateString("ru-RU")}
-          </p>
+          </h2>
 
-          {/* <CryptoGraph arr={graphData?.data.prices} /> */}
+          {graphData?.data.prices ? (
+            <CryptoGraph arr={graphData?.data.prices} />
+          ) : (
+            <h1>error</h1>
+          )}
         </div>
       ) : (
         <img

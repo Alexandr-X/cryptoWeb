@@ -31,11 +31,15 @@ export const Main = ({
   const [findBtnText, setFindBtnText] = useState<string>("find");
   const { data: serchCrptData } = useCryptoData(200);
   const [right, setRight] = useState<number>(-3);
-  const [isRightBtnOnCrptCardClick, setIsRightBtnOnCrptCardClick] = useState<number>(-150)
+  const [isRightBtnOnCrptCardClick, setIsRightBtnOnCrptCardClick] =
+    useState<number>(-150);
+  const [isFirstInpCheked, setIsFirstInpCheked] = useState<boolean>(false);
+  const [isSecondInpCheked, setIsSecondInpCheked] = useState<boolean>(false);
 
   const handleOnAddNew6CrptButtonClick = () => {
     setlimitVal(limit + 6);
   };
+
   const handleOnBack6WordsBtnClick = () => {
     setlimitVal(6);
   };
@@ -70,6 +74,14 @@ export const Main = ({
     });
   };
 
+  const hadleOnFromMinSortInputChange = () => {
+    setIsFirstInpCheked(!isFirstInpCheked);
+  };
+
+  const hadleOnToMinSortInputChange = () => {
+    setIsSecondInpCheked(!isSecondInpCheked);
+  };
+
   const filteredCryptoData = useMemo(() => {
     return isSearch
       ? serchCrptData?.data.data.filter((item: crptItm) =>
@@ -91,6 +103,27 @@ export const Main = ({
       : cryptoData?.data.data;
   }, [cryptoData, limit, searchText, isFindBtnClick]);
 
+  const priceSortArr = useMemo(() => {
+    if (isSecondInpCheked && isFirstInpCheked) {
+      setIsSecondInpCheked(false);
+      setIsFirstInpCheked(false);
+    } else {
+      if (isFirstInpCheked) {
+        return filteredCryptoData.toSorted((x: crptItm, y: crptItm) => {
+          return Number(x.price_usd) - Number(y.price_usd);
+        });
+      }
+
+      if (isSecondInpCheked) {
+        return filteredCryptoData
+          .toSorted((x: crptItm, y: crptItm) => {
+            return Number(x.price_usd) - Number(y.price_usd);
+          })
+          .toReversed();
+      }
+    }
+  }, [isFirstInpCheked, isSecondInpCheked]);
+
   useEffect(() => {
     if (!filteredCryptoData) {
       setHeight(0);
@@ -102,7 +135,7 @@ export const Main = ({
       setRight(1);
       setHeight((parseInt(filteredCryptoData.length) / 6) * 80);
       if (parseInt(filteredCryptoData.length) % 6 !== 0) {
-        setHeight(height => height + 80);
+        setHeight((height) => height + 80);
       }
     }
   }, [filteredCryptoData?.length]);
@@ -132,7 +165,11 @@ export const Main = ({
       }}
     >
       <CryptoList
-        filteredCryptoData={filteredCryptoData}
+        filteredCryptoData={
+          !isFirstInpCheked && !isSecondInpCheked
+            ? filteredCryptoData
+            : priceSortArr
+        }
         setIsAddToCart={setIsAddToCart}
         setTop={setTop}
         setIsRightBtnOnCrptCardClick={setIsRightBtnOnCrptCardClick}
@@ -159,7 +196,14 @@ export const Main = ({
       ) : (
         ""
       )}
-      {isRightBtnOnCrptCardClick?<CryptoDescrCard setIsRightBtnOnCrptCardClick={setIsRightBtnOnCrptCardClick} isRightBtnOnCrptCardClick={isRightBtnOnCrptCardClick}/>:""} 
+      {isRightBtnOnCrptCardClick ? (
+        <CryptoDescrCard
+          setIsRightBtnOnCrptCardClick={setIsRightBtnOnCrptCardClick}
+          isRightBtnOnCrptCardClick={isRightBtnOnCrptCardClick}
+        />
+      ) : (
+        ""
+      )}
 
       <div className="sortCont" style={{ left: `${left}rem` }}>
         <div className="sortInpCont">
@@ -184,6 +228,26 @@ export const Main = ({
           {findBtnText}
           <div className="aft"></div>
         </div>
+
+        <div className="sortFromCont">
+          <label htmlFor="fromMin">sort from min to max</label>
+          <input
+            type="checkbox"
+            id="fromMin"
+            onChange={hadleOnFromMinSortInputChange}
+            checked={isFirstInpCheked}
+          />
+        </div>
+
+        <div className="sortFromCont">
+          <label htmlFor="fromMax">sort from max to min</label>
+          <input
+            type="checkbox"
+            id="fromMax"
+            onChange={hadleOnToMinSortInputChange}
+            checked={isSecondInpCheked}
+          />
+        </div>
       </div>
 
       <div
@@ -196,7 +260,6 @@ export const Main = ({
           alt=""
         />
       </div>
-
     </div>
   );
 };
