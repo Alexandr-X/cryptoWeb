@@ -1,25 +1,40 @@
+import { useEffect, useState } from "react";
 import { Bar, BarChart, CartesianGrid, Tooltip, XAxis, YAxis } from "recharts";
-import "./cryptoGraph.style.css";
 
 interface IDataGraph {
   arr: number[][];
 }
 
 export const CryptoGraph = ({ arr }: IDataGraph) => {
-  const data = arr.map((item: number[]) => ({
-    date: new Date(item[0]).toLocaleDateString("ru-RU"),
-    price: Number((item[1] / 1000).toFixed(1)),
-  }));
-  console.log(data[0].date);
+  const [isBigNum, setisBigNum] = useState<boolean>(false);
+  useEffect(() => {
+    setisBigNum(arr[0][1] / 1000 > 1 ? true : false);
+  }, []);
+
+  const data = arr.map((item: number[]) => {
+    if (item[1] / 1000 > 1) {
+      return {
+        date: new Date(item[0]).toLocaleDateString("ru-RU"),
+        price: Number((item[1] / 1000).toFixed(2)),
+      };
+    }
+    return {
+      date: new Date(item[0]).toLocaleDateString("ru-RU"),
+      price: Number(item[1].toFixed(2)),
+    };
+  });
 
   return (
     <>
-      <BarChart width={1490} height={200} data={data}>
-        <XAxis dataKey="date" stroke="#8884d8" />
-        <YAxis tickFormatter={(value) => `${value} тыс.`} fill="#fff" />
+      <BarChart width={1490} height={230} data={data}>
+        <XAxis dataKey="date" stroke="#ffffff" />
+        <YAxis
+          stroke="#ffffff"
+          tickFormatter={(value) => (isBigNum ? `${value} тыс.$` : value + "$")}
+          fill="#fff"
+        />
         <Tooltip wrapperStyle={{ width: 100, backgroundColor: "#ccc" }} />
-        <CartesianGrid stroke="#ccc" strokeDasharray="5 5" />
-        <Bar dataKey="price" fill="#8884d8" barSize={30} />
+        <Bar dataKey="price" fill="#000000" barSize={30} />
       </BarChart>
     </>
   );
