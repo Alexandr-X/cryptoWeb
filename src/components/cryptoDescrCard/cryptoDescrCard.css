@@ -1,6 +1,6 @@
 .descrCont {
   width: 80%;
-  height: 80%;
+  height: 85%;
   border: 3px solid black;
   position: fixed;
   border-radius: 20px;
@@ -19,6 +19,19 @@
   justify-content: space-evenly;
   height: 300px;
 }
+.descr h1 {
+  color: rgb(242, 255, 0);
+  font-size: 60px;
+  width: 100%;
+  text-align: center;
+}
+.descr p {
+  margin-top: 1rem;
+  font-weight: bolder;
+  font-size: 30px;
+  min-width: 1100px;
+  height: 200px;
+}
 .descrCont p {
   font-weight: bolder;
   font-family: Cambria, Cochin, Georgia, Times, "Times New Roman", serif;
@@ -35,4 +48,13 @@
   height: 200px;
   margin-left: 40%;
   margin-top: 10%;
+}
+.dateofcreat {
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+  color: red;
+}
+.descrOfCrpt {
+  overflow: auto;
+  height: 280px;
 }
