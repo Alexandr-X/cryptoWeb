@@ -11,6 +11,14 @@ import {
 import { useDispatch } from "react-redux";
 import { changeArr } from "../../redux/reducers/arrOfBoughts.reducer";
 import { changeArrOfPinCrpt } from "../../redux/reducers/arrOfPinCrpt.reducer";
+import { useForm } from "react-hook-form";
+import { ErrorComponent } from "../../components";
+
+interface IUser {
+  name: string;
+  email: string;
+  password: string;
+}
 
 const socket = io("http://localhost:5000");
 
@@ -27,6 +35,11 @@ export const RegPage = () => {
   const [paswType, setPaswType] = useState<string>("password");
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const {
+    register,
+    formState: { errors },
+    handleSubmit,
+  } = useForm<IUser>();
 
   socket.emit("isWorkToken", localStorage.getItem("token") || "");
   socket.on("getTokenAnser", (answer) => {
@@ -147,34 +160,79 @@ export const RegPage = () => {
     <div className="regCont">
       <form action="" className="inpRegCont">
         {!isSignIn ? (
-          <input
-            style={{ border: `2px solid ${border}` }}
-            value={name}
-            onChange={handleOnInputNameChange}
-            type="text"
-            placeholder="Alex"
-          />
+          <div className="inputsCont">
+            {" "}
+            <input
+              type="text"
+              placeholder="Alex"
+              value={name}
+              style={{ border: `2px solid ${border}` }}
+              {...register("name", {
+                required: true,
+                minLength: 3,
+                pattern: /^[A-Za-z0-9]+$/,
+              })}
+              onChange={handleOnInputNameChange}
+            />
+            {errors.name ? (
+              <ErrorComponent type={errors.name.type} el="name" />
+            ) : (
+              ""
+            )}
+          </div>
         ) : (
           ""
         )}
-        <input
-          style={{ border: `2px solid ${border}`, color: emTextCol }}
-          value={email}
-          onChange={handleOnInputEmailChange}
-          type="email"
-          placeholder="sasha@crypto.web"
-        />
-        <input
-          style={{ border: `2px solid ${border}`, color: paswTextCol }}
-          value={password}
-          onChange={handleOnInputPasswordChange}
-          type={paswType}
-          placeholder="*****"
-        />
+        <div className="inputsCont">
+          <input
+            style={{ border: `2px solid ${border}`, color: emTextCol }}
+            value={email}
+            type="email"
+            placeholder="sasha@crypto.web"
+            {...register("email", {
+              required: true,
+              minLength: 6,
+              pattern: /^[A-Za-z0-9@.]+$/,
+            })}
+            onChange={handleOnInputEmailChange}
+          />
+          {errors.email ? (
+            <ErrorComponent type={errors.email.type} el="email" />
+          ) : (
+            ""
+          )}
+        </div>
+
+        <div className="inputsCont">
+          <input
+            style={{ border: `2px solid ${border}`, color: paswTextCol }}
+            value={password}
+            placeholder="*****"
+            type="password"
+            {...register("password", {
+              required: true,
+              minLength: 6,
+              pattern: /^(?=.*[A-Z])(?=.*\d)(?=.*_).+$/,
+            })}
+            onChange={handleOnInputPasswordChange}
+          />
+
+          {errors.password ? (
+            <ErrorComponent type={errors.password.type} el="password" />
+          ) : (
+            ""
+          )}
+        </div>
       </form>
       <div className="btnCont">
-        <div onClick={handleOnEnterBtnClick}>{!isSignIn ? "reg" : "enter"}</div>
-        <div onClick={handleOnSignBtnClick}>
+        <button
+          className="signBtn"
+          type="submit"
+          onClick={handleOnEnterBtnClick}
+        >
+          {!isSignIn ? "reg" : "enter"}
+        </button>
+        <div className="signBtn" onClick={handleOnSignBtnClick}>
           {!isSignIn ? "sign in" : "sign up"}
         </div>
       </div>

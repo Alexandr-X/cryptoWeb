@@ -7,3 +7,4 @@ export * from "./cartsCryptoCard";
 export * from "./exitTomainMenu";
 export * from "./cryptoDescrCard";
 export * from "./crptoGraph";
+export * from "./errorComponent";

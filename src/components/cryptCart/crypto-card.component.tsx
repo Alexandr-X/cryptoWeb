@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { crptItm } from "../../types";
 import "./cryptaEl.style.css";
 import { useDispatch, useSelector } from "react-redux";
@@ -37,7 +37,7 @@ export const CryptoCard = ({
   const handleOnCardClick = (event: React.MouseEvent) => {
     let temp = false;
 
-    arrOfCartsCrypta.filter((elem: crptItm) => item.id === elem.id).length > 0
+    arrOfCartsCrypta.filter((elem: crptItm) => id === elem.id).length > 0
       ? (temp = true)
       : (temp = false);
 
