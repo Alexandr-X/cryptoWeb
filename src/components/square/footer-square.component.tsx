@@ -1,6 +1,5 @@
 import "./square.style.css";
 import { NavLink } from "react-router";
-import { crptItm } from "../../types";
 
 type sqrType = {
   src: string;
