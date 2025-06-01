@@ -80,7 +80,7 @@ export function ProfilePage() {
     let arrT = arrOfBoughtEl;
 
     arrT.map((item: IBoughtObj) => {
-      let ind = Number(
+      const ind = Number(
         arrT.findIndex((elem: IBoughtObj) => elem.arr.id === item.arr.id)
       );
 
@@ -170,7 +170,7 @@ export function ProfilePage() {
         <div className="infoCont">
           {" "}
           <p>{userData.name}</p>
-          <h2 className="wallet">wallet - {userData.wallet}$</h2>
+          <h2 className="wallet">wallet - {userData.wallet.toFixed(2)}$</h2>
         </div>
 
         <NavLink to={"/topUpPage"} className="toPWrap">
