@@ -41,6 +41,12 @@ export const RegPage = () => {
     handleSubmit,
   } = useForm<IUser>();
 
+  localStorage.getItem("loading")
+    ? setTimeout(() => {
+        localStorage.removeItem("loading");
+      }, 1500)
+    : "";
+
   socket.emit("isWorkToken", localStorage.getItem("token") || "");
   socket.on("getTokenAnser", (answer) => {
     if (answer) {
@@ -102,8 +108,10 @@ export const RegPage = () => {
           }, 5000);
         }
       } else if (isSignIn) {
+        console.log(email, "mylo");
         socket.emit("isCorrectLogin", { email: email, password: password });
       }
+
       socket.on("isCorrectReg", async (data) => {
         if (data) {
           localStorage.setItem("email", email);
@@ -111,6 +119,7 @@ export const RegPage = () => {
           socket.on("giveAddInform", (inform) => {
             dispatch(changeLogo({ logo: inform.logo }));
             dispatch(changeWallet({ wallet: inform.money }));
+
             dispatch(changeEmail({ email }));
             isSignIn
               ? dispatch(changeName({ name: inform.name }))
@@ -156,6 +165,7 @@ export const RegPage = () => {
       }, 1500);
     }
   };
+
   return (
     <div className="regCont">
       <form action="" className="inpRegCont">

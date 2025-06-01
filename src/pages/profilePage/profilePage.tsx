@@ -6,10 +6,15 @@ import "./profilePage.style.css";
 import { NavLink } from "react-router";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../redux";
-import { changeLogo } from "../../redux/reducers/userDataSlice";
+import {
+  changeEmail,
+  changeLogo,
+  changeName,
+  changeWallet,
+} from "../../redux/reducers/userDataSlice";
 import { io } from "socket.io-client";
 import { changeArr } from "../../redux/reducers/arrOfBoughts.reducer";
-
+import { changeArrOfPinCrpt } from "../../redux/reducers/arrOfPinCrpt.reducer";
 export interface IBoughtObj {
   arr: crptItm;
   quantity: number;
@@ -59,8 +64,18 @@ export function ProfilePage() {
   };
   const hadleOnExitBtnClick = () => {
     localStorage.removeItem("token");
+    dispatch(changeName({ name: "" }));
+    dispatch(
+      changeLogo({
+        logo: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTAlg1-ZKpUt0a2506DkhjtkH8zHdDtnyUySA&s",
+      })
+    );
+    dispatch(changeEmail({ email: "" }));
+    dispatch(changeWallet({ wallet: 0 }));
+    dispatch(changeArr({ arr: "[]" }));
+    dispatch(changeArrOfPinCrpt({ arr: "[]" }));
+    localStorage.setItem("loading", "true");
   };
-
   useEffect(() => {
     let arrT = arrOfBoughtEl;
 
@@ -135,7 +150,9 @@ export function ProfilePage() {
                   </div>
                 );
               })}
-              <div className="finalyPrice">totl spend: {finalyPrice}$</div>
+              <div className="finalyPrice">
+                totl spend: {finalyPrice.toFixed(2)}$
+              </div>
             </div>
           ) : (
             <h1>You bought nothing yet</h1>
