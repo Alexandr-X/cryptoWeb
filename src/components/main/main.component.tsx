@@ -38,10 +38,14 @@ export const Main = ({
 
   const handleOnAddNew6CrptButtonClick = () => {
     setlimitVal(limit + 6);
+    setIsSecondInpCheked(false);
+    setIsFirstInpCheked(false);
   };
 
   const handleOnBack6WordsBtnClick = () => {
     setlimitVal(6);
+    setIsSecondInpCheked(false);
+    setIsFirstInpCheked(false);
   };
 
   const handleOnInpCostChange = (

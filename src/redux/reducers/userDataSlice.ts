@@ -8,7 +8,7 @@ export const userDataSlice = createSlice({
   initialState: {
     name: "",
     email: "",
-    logo: "",
+    logo: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTAlg1-ZKpUt0a2506DkhjtkH8zHdDtnyUySA&s",
     wallet: 0,
   },
   reducers: {

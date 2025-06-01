@@ -31,7 +31,7 @@ export const CryptoDescrCard = ({
   }, [descrOfCrpt.name]);
 
   const { data: graphData } = useCryptoGraphApi(crptname);
-
+  console.log("data", graphData);
   const dispatch = useDispatch();
   const handleOnCryptoDescr = () => {
     setIsRightBtnOnCrptCardClick(-150);
@@ -78,7 +78,7 @@ export const CryptoDescrCard = ({
           {graphData?.data.prices ? (
             <CryptoGraph arr={graphData?.data.prices} />
           ) : (
-            <h1>We havent got data about this crptacurrency</h1>
+            <h1>We havent got data of price of this crptacurrency</h1>
           )}
         </div>
       ) : (
