@@ -53,9 +53,13 @@ export const Main = ({
   ) => {
     if (event.target.className == "frm") setFromCost(event.target.value);
     else if (event.target.className == "to") setToCost(event.target.value);
+    setIsFindBtnClick(false);
+    setFindBtnText("find");
   };
 
   const handleOnFindBtnClick = () => {
+    setIsFirstInpCheked(false);
+    setIsSecondInpCheked(false);
     if (!isFindBtnClick) {
       if (
         (fromCost == "" && toCost != "") ||
@@ -88,9 +92,26 @@ export const Main = ({
 
   const filteredCryptoData = useMemo(() => {
     return isSearch
-      ? serchCrptData?.data.data.filter((item: crptItm) =>
-          item.name.toLowerCase().includes(searchText.toLowerCase())
-        )
+      ? !isFindBtnClick
+        ? serchCrptData?.data.data.filter((item: crptItm) =>
+            item.name.toLowerCase().includes(searchText.toLowerCase())
+          )
+        : serchCrptData?.data.data
+            .filter((item: crptItm) =>
+              item.name.toLowerCase().includes(searchText.toLowerCase())
+            )
+            .filter((item: crptItm) => {
+              if (fromCost !== "" && toCost !== "") {
+                return (
+                  Number(item.price_usd) >= Number(fromCost) &&
+                  Number(item.price_usd) <= Number(toCost)
+                );
+              } else if (fromCost == "" && toCost !== "") {
+                return Number(item.price_usd) <= Number(toCost);
+              } else if (fromCost !== "" && toCost == "") {
+                return Number(item.price_usd) >= Number(fromCost);
+              }
+            })
       : isFindBtnClick
       ? cryptoData?.data.data.filter((item: crptItm) => {
           if (fromCost !== "" && toCost !== "") {

@@ -67,6 +67,9 @@ export const RegPage = () => {
 
   const handleOnSignBtnClick = () => {
     setIsSignIn(!isSignIn);
+    setName("");
+    setEmail("");
+    setPassword("");
   };
   const handleOnInputNameChange = (
     event: React.ChangeEvent<HTMLInputElement>
@@ -108,7 +111,6 @@ export const RegPage = () => {
           }, 5000);
         }
       } else if (isSignIn) {
-        console.log(email, "mylo");
         socket.emit("isCorrectLogin", { email: email, password: password });
       }
 
@@ -134,10 +136,9 @@ export const RegPage = () => {
 
           navigate("/");
         } else {
-          setBorder("red");
-          setTimeout(() => {
-            setBorder("black");
-          }, 5000);
+          !isSignIn
+            ? alert("this email is already used")
+            : alert("this email is not regisetrated yet");
         }
       });
     } else if (email == "" && password == "") {
@@ -177,11 +178,11 @@ export const RegPage = () => {
               placeholder="Alex"
               value={name}
               style={{ border: `2px solid ${border}` }}
-              {...register("name", {
-                required: true,
-                minLength: 3,
-                pattern: /^[A-Za-z0-9]+$/,
-              })}
+              // {...register("name", {
+              //   required: true,
+              //   minLength: 3,
+              //   pattern: /^[A-Za-z0-9]+$/,
+              // })}
               onChange={handleOnInputNameChange}
             />
             {errors.name ? (
