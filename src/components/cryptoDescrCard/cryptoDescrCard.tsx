@@ -31,7 +31,7 @@ export const CryptoDescrCard = ({
   }, [descrOfCrpt.name]);
 
   const { data: graphData } = useCryptoGraphApi(crptname);
-  console.log("data", graphData);
+
   const dispatch = useDispatch();
   const handleOnCryptoDescr = () => {
     setIsRightBtnOnCrptCardClick(-150);
@@ -72,7 +72,9 @@ export const CryptoDescrCard = ({
           </div>
           <h2 className="dateofcreat">
             this cryptocurrency was created -{" "}
-            {new Date(descrOfCrpt.first_data_at).toLocaleDateString("ru-RU")}
+            {descrOfCrpt.first_data_at != null
+              ? new Date(descrOfCrpt.first_data_at).toLocaleDateString("ru-RU")
+              : "we havent got this date"}
           </h2>
 
           {graphData?.data.prices ? (
