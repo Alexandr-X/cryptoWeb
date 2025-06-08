@@ -7,8 +7,9 @@ interface IDataGraph {
 
 export const CryptoGraph = ({ arr }: IDataGraph) => {
   const [isBigNum, setisBigNum] = useState<boolean>(false);
+
   useEffect(() => {
-    setisBigNum(arr[0][1] / 1000 > 1 ? true : false);
+    setisBigNum(arr[0][5] / 1000 >= 1 ? true : false);
   }, []);
 
   const data = arr.map((item: number[]) => {
@@ -30,7 +31,7 @@ export const CryptoGraph = ({ arr }: IDataGraph) => {
         <XAxis dataKey="date" stroke="#ffffff" />
         <YAxis
           stroke="#ffffff"
-          tickFormatter={(value) => (isBigNum ? `${value} тыс.$` : value + "$")}
+          tickFormatter={(value) => (isBigNum ? `${value} T.$` : value + "$")}
           fill="#fff"
         />
         <Tooltip wrapperStyle={{ width: 100, backgroundColor: "#ccc" }} />
