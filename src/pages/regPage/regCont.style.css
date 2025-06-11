@@ -45,3 +45,21 @@
 .inputsCont {
   display: flex;
 }
+.erorr {
+  border: 2px solid red;
+  position: absolute;
+  width: 280px;
+  height: 30px;
+  text-align: center;
+  padding-top: 2px;
+}
+.showPasw,
+.showPasw img {
+  position: absolute;
+  left: 30%;
+  width: 40px;
+  height: 40px;
+}
+.showPasw:hover {
+  cursor: pointer;
+}

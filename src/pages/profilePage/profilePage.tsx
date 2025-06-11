@@ -64,6 +64,7 @@ export function ProfilePage() {
   };
   const hadleOnExitBtnClick = () => {
     localStorage.removeItem("token");
+    localStorage.removeItem("email");
     dispatch(changeName({ name: "" }));
     dispatch(
       changeLogo({

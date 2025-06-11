@@ -34,6 +34,10 @@ export const RegPage = () => {
     reset,
     unregister,
   } = useForm<IUser>({ mode: "all" });
+  const [regError, setRegError] = useState<string>("-40px");
+  const [enterError, setEnterError] = useState<string>("-40px");
+  const [isPaswShow, setIsPaswShow] = useState<boolean>(false);
+  const [paswType, setPaswType] = useState<string>("password");
 
   localStorage.getItem("loading")
     ? setTimeout(() => {
@@ -44,7 +48,7 @@ export const RegPage = () => {
   socket.emit("isWorkToken", localStorage.getItem("token") || "");
   socket.on("getTokenAnser", (answer) => {
     if (answer) {
-      socket.emit("getAddInform", localStorage.getItem("email") || email);
+      socket.emit("getAddInform", localStorage.getItem("email") || "");
       socket.on("giveAddInform", (inform) => {
         dispatch(changeLogo({ logo: inform.logo }));
         dispatch(changeWallet({ wallet: inform.money }));
@@ -75,16 +79,15 @@ export const RegPage = () => {
           password: data.password,
         });
       }
-      socket.on("isCorrectReg", async (res) => {
-        console.log("res", res);
+      socket.once("isCorrectReg", async (res) => {
         if (res) {
           localStorage.setItem("email", data.email);
+
           socket.emit("getAddInform", data.email);
-          socket.on("giveAddInform", (inform) => {
+          socket.once("giveAddInform", (inform) => {
             dispatch(changeLogo({ logo: inform.logo }));
             dispatch(changeWallet({ wallet: inform.money }));
             dispatch(changeEmail({ email: data.email }));
-
             isSignIn
               ? dispatch(changeName({ name: inform.name }))
               : dispatch(changeName({ name: data.name }));
@@ -92,28 +95,39 @@ export const RegPage = () => {
             dispatch(changeArrOfPinCrpt({ arr: inform.arrOfPin }));
           });
           socket.emit("createToken", data.email);
-          socket.on("getToken", (token) => {
+          socket.once("getToken", (token) => {
             localStorage.setItem("token", token);
           });
           navigate("/");
         } else {
-          !isSignIn
-            ? alert("this email is already used")
-            : alert("this email is not regisetrated yet or incorrect password");
+          console.log(isSignIn);
+          if (!isSignIn) {
+            setRegError("5px");
+            setTimeout(() => setRegError("-40px"), 2000);
+          } else {
+            setEnterError("5px");
+            setTimeout(() => setEnterError("-40px"), 2000);
+          }
         }
       });
     }
   };
 
   const handleOnSignBtnClick = () => {
+    reset();
+    setRegError("-40px");
     if (!isSignIn) {
       unregister("email");
       unregister("password");
       unregister("name");
     }
     setIsSignIn(!isSignIn);
-
-    reset();
+  };
+  const handleOnShowPaswClick = () => {
+    if (!isPaswShow) {
+      setPaswType("text");
+    } else setPaswType("password");
+    setIsPaswShow(!isPaswShow);
   };
 
   return (
@@ -147,7 +161,7 @@ export const RegPage = () => {
             ""
           )}
 
-          <div className="inputsCont" key={`em${isSignIn}`}>
+          <div className="inputsCont">
             <input
               type="email"
               placeholder="sasha@crypto.web"
@@ -169,10 +183,25 @@ export const RegPage = () => {
             )}
           </div>
 
-          <div className="inputsCont" key={`pass${isSignIn}`}>
+          <div className="inputsCont">
+            <div className="showPasw" onClick={handleOnShowPaswClick}>
+              {" "}
+              {!isPaswShow ? (
+                <img
+                  src="https://cdn-icons-png.flaticon.com/512/2767/2767146.png"
+                  alt=""
+                />
+              ) : (
+                <img
+                  src="https://cdn-icons-png.flaticon.com/512/158/158746.png"
+                  alt=""
+                />
+              )}
+            </div>
+
             <input
               placeholder="*****"
-              type="password"
+              type={paswType}
               {...register(
                 "password",
                 !isSignIn
@@ -202,6 +231,13 @@ export const RegPage = () => {
           </div>
         </div>
       </form>
+
+      <div className="erorr" style={{ top: regError, right: "20px" }}>
+        This email is already used
+      </div>
+      <div className="erorr" style={{ top: enterError, right: "320px" }}>
+        Wrong password or email is not register
+      </div>
     </div>
   );
 };
