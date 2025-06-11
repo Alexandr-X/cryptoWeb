@@ -17,8 +17,12 @@ export const ErrorComponent = ({ type, el }: IType) => {
         setErrorText(type + " = 6");
       }
     } else if (type == "pattern") {
-      if (el == "name" || el == "email") {
+      if (el == "name") {
         setErrorText("you can only use latin letter and number");
+      } else if (el == "email") {
+        setErrorText(
+          "you can only use latin letter and number, you must @ and . after"
+        );
       } else {
         setErrorText("you must use _ , number ,Big letter  ");
       }
