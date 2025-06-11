@@ -2,7 +2,8 @@
   color: red;
   position: absolute;
   width: 235px;
-  margin-left: 235px;
+  padding-top: 3px;
+  margin-left: 300px;
   pointer-events: none;
 }
 .errorCont p {

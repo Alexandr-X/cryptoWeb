@@ -1,6 +1,6 @@
 .regCont {
   border: 2px solid black;
-  width: 400px;
+  width: 560px;
   height: 400px;
   display: flex;
   flex-wrap: wrap;
@@ -12,17 +12,17 @@
   display: flex;
   justify-content: space-evenly;
   flex-wrap: wrap;
-  height: 200px;
+  height: 250px;
 }
 .inpRegCont input {
-  width: 350px;
+  width: 550px;
   height: 40px;
   font-size: 35px;
   border: 2px solid black;
 }
 .btnCont {
-  width: 350px;
-  height: 150px;
+  width: 100%;
+  height: 100px;
   display: flex;
   justify-content: space-around;
 }
