@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import "./regCont.style.css";
 import { io } from "socket.io-client";
 import { data, useNavigate } from "react-router";
@@ -39,29 +39,28 @@ export const RegPage = () => {
   const [isPaswShow, setIsPaswShow] = useState<boolean>(false);
   const [paswType, setPaswType] = useState<string>("password");
 
-  localStorage.getItem("loading")
-    ? setTimeout(() => {
-        localStorage.removeItem("loading");
-      }, 1500)
-    : "";
-
-  socket.emit("isWorkToken", localStorage.getItem("token") || "");
-  socket.on("getTokenAnser", (answer) => {
-    if (answer) {
-      socket.emit("getAddInform", localStorage.getItem("email") || "");
-      socket.on("giveAddInform", (inform) => {
-        dispatch(changeLogo({ logo: inform.logo }));
-        dispatch(changeWallet({ wallet: inform.money }));
-        dispatch(changeEmail({ email: email }));
-        isSignIn
-          ? dispatch(changeName({ name: inform.name }))
-          : dispatch(changeName({ name: data.name }));
-        dispatch(changeArr({ arr: inform.arr }));
-        dispatch(changeArrOfPinCrpt({ arr: inform.arrOfPin }));
-      });
-      navigate("/");
-    }
-  });
+  useEffect(() => {
+    localStorage.getItem("loading")
+      ? setTimeout(() => {
+          localStorage.removeItem("loading");
+        }, 1500)
+      : "";
+    socket.emit("isWorkToken", localStorage.getItem("token") || "");
+    socket.on("getTokenAnser", (answer) => {
+      if (answer) {
+        socket.emit("getAddInform", localStorage.getItem("email") || "");
+        socket.on("giveAddInform", (inform) => {
+          dispatch(changeLogo({ logo: inform.logo }));
+          dispatch(changeWallet({ wallet: inform.money }));
+          dispatch(changeEmail({ email: email }));
+          dispatch(changeName({ name: inform.name }));
+          dispatch(changeArr({ arr: inform.arr }));
+          dispatch(changeArrOfPinCrpt({ arr: inform.arrOfPin }));
+        });
+        navigate("/");
+      }
+    });
+  }, []);
 
   const handleOnSubmit: SubmitHandler<IUser> = (data) => {
     setEmail(data.email);
